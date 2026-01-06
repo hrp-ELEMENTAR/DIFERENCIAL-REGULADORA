@@ -1,27 +1,28 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
-import { Scope } from "@/components/Scope";
+import { HowItWorks } from "@/components/HowItWorks";
+import { Differentials } from "@/components/Differentials";
 import { SLA } from "@/components/SLA";
-import { Deliverables } from "@/components/Deliverables";
-import { Governance } from "@/components/Governance";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
+import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
 
 const Index = () => {
   return (
     <div className="min-h-screen">
       <Header />
-      <main className="container-custom">
+      <main>
         <Hero />
+        <div className="section-divider container-custom" />
         <Services />
-        <Scope />
+        <HowItWorks />
+        <Differentials />
         <SLA />
-        <Deliverables />
-        <Governance />
         <Contact />
       </main>
       <Footer />
+      <FloatingWhatsApp />
     </div>
   );
 };

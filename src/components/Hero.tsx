@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { MessageCircle } from "lucide-react";
-import { StaggerContainer, StaggerItem } from "@/components/AnimatedSection";
+import { MessageCircle, ArrowRight, Shield, Clock, FileCheck } from "lucide-react";
 
 const WHATSAPP_NUMBER = "5545999981551";
 const WHATSAPP_TEXT = "Olá! Vim pelo site da Diferencial e gostaria de solicitar uma proposta (operação completa de sinistros).";
@@ -9,91 +8,111 @@ const WHATSAPP_TEXT = "Olá! Vim pelo site da Diferencial e gostaria de solicita
 const getWhatsAppLink = () => 
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_TEXT)}`;
 
-const features = [
-  {
-    title: "Resposta rápida",
-    description: "Abertura do caso, orientação imediata e atualização por status.",
-  },
-  {
-    title: "Decisão com evidências",
-    description: "Triagem técnica + perícia (quando aplicável) + relatório conclusivo.",
-  },
-  {
-    title: "Controle e rastreabilidade",
-    description: "Marcos claros e governança para reduzir retrabalho e risco.",
-  },
+const stats = [
+  { number: "24h", label: "Atendimento inicial" },
+  { number: "100%", label: "Rastreabilidade" },
+  { number: "15", label: "Dias para relatório" },
+];
+
+const highlights = [
+  { icon: Shield, text: "Governança e compliance" },
+  { icon: Clock, text: "SLA garantido" },
+  { icon: FileCheck, text: "Relatórios completos" },
 ];
 
 export const Hero = () => {
   return (
-    <section className="py-12 md:py-14" id="topo">
-      <motion.div 
-        className="hero-card rounded-2xl p-6 md:p-8"
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <motion.span 
-          className="pill"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <span className="accent-bar" aria-hidden="true" />
-          Operação completa de sinistros • Transporte (Caminhões e Frotas)
-        </motion.span>
-
-        <motion.h1 
-          className="mt-4 mb-3 text-3xl md:text-4xl lg:text-5xl font-black leading-tight"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
-          Do aviso ao relatório conclusivo — com governança e SLA.
-        </motion.h1>
-
-        <motion.p 
-          className="text-muted-foreground leading-relaxed max-w-3xl"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          Prestação de serviços de operação completa de sinistros para o setor de transporte, 
-          com foco em caminhões e frotas: assistência ao sinistro, gestão de guincho/remoção, 
-          análise inicial, perícia, regulagem e suporte jurídico.
-        </motion.p>
-
+    <section className="pt-28 md:pt-36 pb-12 md:pb-20" id="topo">
+      <div className="container-custom">
         <motion.div 
-          className="flex flex-wrap gap-3 mt-5"
-          initial={{ opacity: 0, y: 20 }}
+          className="hero-card rounded-3xl p-8 md:p-12 lg:p-16"
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Button asChild variant="default" size="lg">
-            <a href={getWhatsAppLink()} target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="mr-2 h-4 w-4" />
-              Falar no WhatsApp
-            </a>
-          </Button>
-          <Button asChild variant="outline" size="lg">
-            <a href="#contato">Solicitar proposta</a>
-          </Button>
-          <Button asChild variant="ghost" size="lg">
-            <a href="#escopo">Entender o escopo</a>
-          </Button>
+          <div className="max-w-4xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <span className="pill mb-6 inline-flex">
+                <span className="accent-bar" />
+                Especialistas em sinistros de transporte
+              </span>
+            </motion.div>
+
+            <motion.h1 
+              className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black leading-[1.1] mb-6"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+            >
+              Sua operação de sinistros{" "}
+              <span className="gradient-text">simplificada</span> do início ao fim.
+            </motion.h1>
+
+            <motion.p 
+              className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8 max-w-2xl"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              Gestão completa de sinistros para frotas e caminhões. 
+              Do aviso ao relatório final, com <strong className="text-foreground">transparência</strong>, 
+              <strong className="text-foreground"> agilidade</strong> e <strong className="text-foreground">resultados</strong>.
+            </motion.p>
+
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+            >
+              <Button asChild size="lg" className="text-base group">
+                <a href={getWhatsAppLink()} target="_blank" rel="noopener noreferrer">
+                  <MessageCircle className="mr-2 h-5 w-5" />
+                  Solicitar Proposta
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </a>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="text-base">
+                <a href="#como-funciona">Ver como funciona</a>
+              </Button>
+            </motion.div>
+
+            {/* Quick highlights */}
+            <motion.div 
+              className="flex flex-wrap gap-4 md:gap-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+            >
+              {highlights.map((item, i) => (
+                <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <item.icon className="h-4 w-4 text-primary" />
+                  <span>{item.text}</span>
+                </div>
+              ))}
+            </motion.div>
+          </div>
         </motion.div>
 
-        <StaggerContainer className="grid md:grid-cols-3 gap-4 mt-6">
-          {features.map((feature) => (
-            <StaggerItem key={feature.title}>
-              <div className="card-glass rounded-2xl p-5 h-full">
-                <h3 className="font-bold text-foreground mb-2">{feature.title}</h3>
-                <p className="text-sm text-muted-foreground">{feature.description}</p>
-              </div>
-            </StaggerItem>
+        {/* Stats */}
+        <motion.div 
+          className="grid grid-cols-3 gap-4 md:gap-6 mt-8 md:mt-12"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+        >
+          {stats.map((stat, i) => (
+            <div key={i} className="stat-card">
+              <div className="stat-number">{stat.number}</div>
+              <div className="text-xs md:text-sm text-muted-foreground mt-1">{stat.label}</div>
+            </div>
           ))}
-        </StaggerContainer>
-      </motion.div>
+        </motion.div>
+      </div>
     </section>
   );
 };
