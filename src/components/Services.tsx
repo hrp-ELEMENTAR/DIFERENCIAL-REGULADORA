@@ -1,3 +1,5 @@
+import { AnimatedSection, StaggerContainer, StaggerItem } from "@/components/AnimatedSection";
+
 const services = [
   {
     title: "Atendimento & Assistência",
@@ -28,22 +30,26 @@ const services = [
 export const Services = () => {
   return (
     <section id="servicos" className="py-8">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-4">
-        <h2 className="text-2xl font-black">Serviços</h2>
-        <span className="pill">
-          <span className="accent-bar" aria-hidden="true" />
-          Ponta a ponta
-        </span>
-      </div>
+      <AnimatedSection>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-4">
+          <h2 className="text-2xl font-black">Serviços</h2>
+          <span className="pill">
+            <span className="accent-bar" aria-hidden="true" />
+            Ponta a ponta
+          </span>
+        </div>
+      </AnimatedSection>
 
-      <div className="grid md:grid-cols-3 gap-4">
+      <StaggerContainer className="grid md:grid-cols-3 gap-4">
         {services.map((service) => (
-          <div key={service.title} className="card-glass rounded-2xl p-5">
-            <h3 className="font-bold text-foreground mb-2">{service.title}</h3>
-            <p className="text-sm text-muted-foreground">{service.description}</p>
-          </div>
+          <StaggerItem key={service.title}>
+            <div className="card-glass rounded-2xl p-5 h-full">
+              <h3 className="font-bold text-foreground mb-2">{service.title}</h3>
+              <p className="text-sm text-muted-foreground">{service.description}</p>
+            </div>
+          </StaggerItem>
         ))}
-      </div>
+      </StaggerContainer>
     </section>
   );
 };

@@ -1,3 +1,5 @@
+import { AnimatedSection, StaggerContainer, StaggerItem } from "@/components/AnimatedSection";
+
 const scopeItems = [
   { title: "Atendimento e assistência:", text: "abertura do processo com checklist, orientação imediata, coleta de informações e pronta resposta." },
   { title: "Guincho/remoção:", text: "coordenação de guincho para veículo pesado, remoção para pátio/oficina/local indicado e registro operacional." },
@@ -20,37 +22,45 @@ const steps = [
 export const Scope = () => {
   return (
     <section id="escopo" className="py-8">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-4">
-        <h2 className="text-2xl font-black">Escopo da operação</h2>
-        <span className="pill">Conforme necessidade do cliente</span>
-      </div>
+      <AnimatedSection>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-4">
+          <h2 className="text-2xl font-black">Escopo da operação</h2>
+          <span className="pill">Conforme necessidade do cliente</span>
+        </div>
+      </AnimatedSection>
 
       <div className="grid lg:grid-cols-2 gap-4">
-        <div className="card-glass rounded-2xl p-5">
-          <h3 className="font-bold text-foreground mb-3">O que fazemos</h3>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            {scopeItems.map((item) => (
-              <li key={item.title}>
-                <strong className="text-foreground">{item.title}</strong> {item.text}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="card-glass rounded-2xl p-5">
-          <h3 className="font-bold text-foreground mb-2">Fluxo end-to-end</h3>
-          <p className="text-sm text-muted-foreground mb-4">
-            Do aviso do sinistro ao encerramento com dossiê e relatório.
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3">
-            {steps.map((step) => (
-              <div key={step.num} className="step-card">
-                <span className="font-bold text-foreground block mb-1">{step.num}) {step.title}</span>
-                <span className="text-xs text-muted-foreground">{step.desc}</span>
-              </div>
-            ))}
+        <AnimatedSection delay={0.1}>
+          <div className="card-glass rounded-2xl p-5 h-full">
+            <h3 className="font-bold text-foreground mb-3">O que fazemos</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              {scopeItems.map((item) => (
+                <li key={item.title}>
+                  <strong className="text-foreground">{item.title}</strong> {item.text}
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
+        </AnimatedSection>
+
+        <AnimatedSection delay={0.2}>
+          <div className="card-glass rounded-2xl p-5 h-full">
+            <h3 className="font-bold text-foreground mb-2">Fluxo end-to-end</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Do aviso do sinistro ao encerramento com dossiê e relatório.
+            </p>
+            <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3">
+              {steps.map((step) => (
+                <StaggerItem key={step.num}>
+                  <div className="step-card h-full">
+                    <span className="font-bold text-foreground block mb-1">{step.num}) {step.title}</span>
+                    <span className="text-xs text-muted-foreground">{step.desc}</span>
+                  </div>
+                </StaggerItem>
+              ))}
+            </StaggerContainer>
+          </div>
+        </AnimatedSection>
       </div>
     </section>
   );
