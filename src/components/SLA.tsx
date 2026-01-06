@@ -1,33 +1,66 @@
-import { AnimatedSection } from "@/components/AnimatedSection";
+import { motion } from "framer-motion";
+import { Clock, FileCheck, AlertCircle } from "lucide-react";
 
 const slaItems = [
-  { title: "Atendimento inicial:", text: "até 2h (emergencial) ou 24h (demais)." },
-  { title: "Análise inicial:", text: "até 48h úteis após recebimento de dados mínimos." },
-  { title: "Vistoria/perícia:", text: "2 a 5 dias úteis (ou conforme janela de acesso ao veículo)." },
-  { title: "Relatório conclusivo:", text: "10 a 15 dias úteis após documentação completa e diligências finalizadas." },
+  { 
+    icon: AlertCircle,
+    title: "Atendimento Emergencial",
+    time: "2 horas",
+    description: "Para casos urgentes com veículo parado ou acidente."
+  },
+  { 
+    icon: Clock,
+    title: "Análise Inicial",
+    time: "48 horas",
+    description: "Após recebimento de dados mínimos do sinistro."
+  },
+  { 
+    icon: FileCheck,
+    title: "Relatório Conclusivo",
+    time: "15 dias",
+    description: "Após documentação completa e diligências finalizadas."
+  },
 ];
 
 export const SLA = () => {
   return (
-    <section id="sla" className="py-8">
-      <AnimatedSection>
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-4">
-          <h2 className="text-2xl font-black">SLA (prazos de referência)</h2>
-          <span className="pill">Condicionado a dados/documentos</span>
-        </div>
-      </AnimatedSection>
+    <section id="sla" className="py-16 md:py-24">
+      <div className="container-custom">
+        <motion.div 
+          className="glass-card rounded-3xl p-8 md:p-12"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <span className="pill mb-4">SLA Garantido</span>
+            <h2 className="text-3xl md:text-4xl font-black mb-4">
+              Prazos que você pode <span className="gradient-text">confiar</span>
+            </h2>
+            <p className="text-muted-foreground">
+              Compromisso com prazos claros e rastreáveis em cada etapa.
+            </p>
+          </div>
 
-      <AnimatedSection delay={0.1}>
-        <div className="card-glass rounded-2xl p-5">
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            {slaItems.map((item) => (
-              <li key={item.title}>
-                <strong className="text-foreground">{item.title}</strong> {item.text}
-              </li>
+          <div className="grid md:grid-cols-3 gap-6">
+            {slaItems.map((item, i) => (
+              <motion.div 
+                key={item.title}
+                className="text-center p-6 rounded-2xl bg-background/30"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+              >
+                <item.icon className="h-10 w-10 text-primary mx-auto mb-4" />
+                <div className="stat-number text-3xl mb-2">{item.time}</div>
+                <h3 className="font-bold mb-2">{item.title}</h3>
+                <p className="text-sm text-muted-foreground">{item.description}</p>
+              </motion.div>
             ))}
-          </ul>
-        </div>
-      </AnimatedSection>
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 };
