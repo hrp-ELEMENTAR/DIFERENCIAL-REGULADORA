@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const navLinks = [
   { href: "#servicos", label: "Serviços" },
@@ -22,10 +23,11 @@ export const Header = () => {
             className="flex items-center gap-3 font-black tracking-tight"
             aria-label="Diferencial Reguladora de Sinistro"
           >
-            <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-black text-lg">D</span>
-            </div>
-            <span className="hidden sm:inline text-foreground">Diferencial</span>
+            <img 
+              src={logo} 
+              alt="Diferencial Reguladora de Sinistro" 
+              className="h-10 w-auto object-contain"
+            />
           </a>
 
           {/* Desktop nav */}
