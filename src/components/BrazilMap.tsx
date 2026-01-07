@@ -1,3 +1,4 @@
+```tsx
 import { motion } from "framer-motion";
 import { useState } from "react";
 import logoBg from "@/assets/logo-bg.png";
@@ -47,7 +48,7 @@ const states = [
 const regions = ["Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul"];
 
 /**
- * Coordenadas ajustadas para:
+ * Ajustado para o seu SVG real:
  * viewBox="0 0 537.59 533.82"
  */
 const statePositions: Record<string, { x: number; y: number }> = {
@@ -214,13 +215,15 @@ export const BrazilMap = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             <div className="relative max-w-lg mx-auto">
-              {/* Imagem do mapa real */}
+              {/* Mapa real (mais sutil e moderno) */}
               <img
                 src="/assets/img/brasil_regioes.svg"
                 alt="Mapa do Brasil"
                 className="w-full h-auto"
                 style={{
-                  filter: "drop-shadow(0 20px 40px rgba(8,141,160,.12))",
+                  opacity: 0.62, // sutil (não fica branco demais)
+                  filter:
+                    "drop-shadow(0 18px 34px rgba(8,141,160,.10)) saturate(0.85) contrast(1.05)",
                 }}
               />
 
@@ -386,3 +389,4 @@ export const BrazilMap = () => {
     </section>
   );
 };
+```
