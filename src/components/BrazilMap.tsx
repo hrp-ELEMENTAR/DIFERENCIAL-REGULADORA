@@ -361,10 +361,10 @@ export const BrazilMap = () => {
           viewport={{ once: true }}
         >
           {[
-            { number: "27", label: "Estados cobertos", emoji: "📍" },
-            { number: "5.570", label: "Municípios atendidos", emoji: "🏙️" },
-            { number: "24/7", label: "Disponibilidade", emoji: "⏰" },
-            { number: "100%", label: "Território nacional", emoji: "✅" },
+            { number: "27", label: "Estados cobertos", emoji: "" },
+            { number: "5.570", label: "Municípios atendidos", emoji: "" },
+            { number: "24/7", label: "Disponibilidade", emoji: "" },
+            { number: "100%", label: "Território nacional", emoji: "" },
           ].map((stat, i) => (
             <motion.div
               key={i}
