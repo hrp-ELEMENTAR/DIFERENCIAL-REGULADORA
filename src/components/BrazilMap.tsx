@@ -1,9 +1,4 @@
-import {
-  motion,
-  animate,
-  useInView,
-  useMotionValue,
-} from "framer-motion";
+import { motion, animate, useInView, useMotionValue } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import logoBg from "@/assets/logo-bg.png";
 
@@ -89,72 +84,52 @@ const statePositions: Record<string, { x: number; y: number }> = {
   RS: { x: 282.06, y: 476.05 },
 };
 
-type Stat =
-  | { key: string; label: string; type: "int"; value: number }
-  | { key: string; label: string; type: "percent"; value: number }
-  | { key: string; label: string; type: "text"; text: string };
-
-function AnimatedNumber({
-  value,
+function CountUp({
+  to,
+  start,
   format,
+  duration = 0.85,
   className,
-  duration = 0.9,
 }: {
-  value: number;
+  to: number;
+  start: boolean;
   format: (n: number) => string;
-  className?: string;
   duration?: number;
+  className?: string;
 }) {
-  const ref = useRef<HTMLSpanElement | null>(null);
-  const inView = useInView(ref, { once: true, margin: "-20% 0px" });
   const mv = useMotionValue(0);
-  const [display, setDisplay] = useState(format(0));
+  const [txt, setTxt] = useState(format(0));
 
   useEffect(() => {
-    const unsub = mv.on("change", (latest) => {
-      setDisplay(format(latest));
-    });
+    const unsub = mv.on("change", (v) => setTxt(format(v)));
     return () => unsub();
   }, [mv, format]);
 
   useEffect(() => {
-    if (!inView) return;
-    const controls = animate(mv, value, {
-      duration,
-      ease: "easeOut",
-    });
+    if (!start) return;
+    // start imediatamente quando a grid entra na tela
+    const controls = animate(mv, to, { duration, ease: "easeOut" });
     return () => controls.stop();
-  }, [inView, mv, value, duration]);
+  }, [start, mv, to, duration]);
 
-  return (
-    <span ref={ref} className={className}>
-      {display}
-    </span>
-  );
+  return <span className={className}>{txt}</span>;
 }
 
 export const BrazilMap = () => {
   const [hoveredState, setHoveredState] = useState<string | null>(null);
 
-  const stats: Stat[] = useMemo(
-    () => [
-      { key: "estados", label: "Estados cobertos", type: "int", value: 27 },
-      { key: "municipios", label: "Municípios atendidos", type: "int", value: 5570 },
-      { key: "disp", label: "Disponibilidade", type: "text", text: "24/7" },
-      { key: "territorio", label: "Território nacional", type: "percent", value: 100 },
-    ],
-    []
-  );
+  // dispara as animações quando a GRID de stats entra na tela
+  const statsRef = useRef<HTMLDivElement | null>(null);
+  const statsInView = useInView(statsRef, {
+    once: true,
+    // começa mais cedo (não precisa “passar e voltar”)
+    margin: "0px 0px -20% 0px",
+    amount: 0.2,
+  });
 
-  const formatInt = useMemo(() => {
-    const nf = new Intl.NumberFormat("pt-BR");
-    return (n: number) => nf.format(Math.round(n));
-  }, []);
-
-  const formatPercent = useMemo(() => {
-    const nf = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 });
-    return (n: number) => `${nf.format(Math.round(n))}%`;
-  }, []);
+  const nf = useMemo(() => new Intl.NumberFormat("pt-BR"), []);
+  const formatInt = useMemo(() => (n: number) => nf.format(Math.round(n)), [nf]);
+  const formatPct = useMemo(() => (n: number) => `${Math.round(n)}%`, []);
 
   return (
     <section className="py-20 md:py-32 relative overflow-hidden" id="atuacao">
@@ -291,7 +266,6 @@ export const BrazilMap = () => {
             transition={{ duration: 0.55, delay: 0.2 }}
           >
             <div className="relative max-w-lg mx-auto">
-              {/* Mapa real */}
               <img
                 src="/assets/img/brasil_regioes.svg"
                 alt="Mapa do Brasil"
@@ -303,7 +277,6 @@ export const BrazilMap = () => {
                 }}
               />
 
-              {/* Overlay SVG para markers */}
               <svg
                 viewBox="0 0 537.59 533.82"
                 className="absolute inset-0 w-full h-full"
@@ -322,7 +295,6 @@ export const BrazilMap = () => {
                 {states.map((state, i) => {
                   const pos = statePositions[state.id];
                   if (!pos) return null;
-
                   const isHovered = hoveredState === state.id;
 
                   return (
@@ -404,7 +376,6 @@ export const BrazilMap = () => {
                 })}
               </svg>
 
-              {/* Floating badge */}
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -423,69 +394,106 @@ export const BrazilMap = () => {
           </motion.div>
         </div>
 
-        {/* Stats (SEM EMOJI + com animação nos números + card como antes) */}
-        <motion.div
+        {/* STATS (cards forçados + count-up rápido) */}
+        <div
+          ref={statsRef}
           className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 max-w-4xl mx-auto"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.45 }}
-          viewport={{ once: true }}
         >
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.key}
-              className="stat-card group hover:border-primary/30 transition-all"
-              initial={{ opacity: 0, y: 14, scale: 0.97 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ delay: 0.25 + i * 0.06, duration: 0.4 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.03 }}
-              style={{
-                borderColor: "rgba(6,143,161,0.25)",
-              }}
+          {/* 27 */}
+          <motion.div
+            className="rounded-2xl p-6 text-center border backdrop-blur-md"
+            style={{
+              background: "rgba(255,255,255,0.03)",
+              borderColor: "rgba(255,255,255,0.10)",
+              boxShadow: "0 25px 50px -12px rgba(0,0,0,0.45)",
+            }}
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.35 }}
+            whileHover={{ scale: 1.03 }}
+          >
+            <div
+              className="text-3xl md:text-4xl font-black tracking-tight"
+              style={{ color: BRAND, textShadow: "0 10px 30px rgba(6,143,161,0.18)" }}
             >
-              {/* Número com animação */}
-              <div
-                className="text-3xl md:text-4xl font-black tracking-tight"
-                style={{
-                  color: BRAND,
-                  textShadow: "0 10px 30px rgba(6,143,161,0.20)",
-                }}
-              >
-                {stat.type === "int" && (
-                  <AnimatedNumber
-                    value={stat.value}
-                    format={formatInt}
-                    duration={0.95}
-                  />
-                )}
+              <CountUp to={27} start={statsInView} format={formatInt} />
+            </div>
+            <div className="text-sm text-muted-foreground mt-2">Estados cobertos</div>
+          </motion.div>
 
-                {stat.type === "percent" && (
-                  <AnimatedNumber
-                    value={stat.value}
-                    format={formatPercent}
-                    duration={0.9}
-                  />
-                )}
+          {/* 5.570 */}
+          <motion.div
+            className="rounded-2xl p-6 text-center border backdrop-blur-md"
+            style={{
+              background: "rgba(255,255,255,0.03)",
+              borderColor: "rgba(255,255,255,0.10)",
+              boxShadow: "0 25px 50px -12px rgba(0,0,0,0.45)",
+            }}
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.35, delay: 0.06 }}
+            whileHover={{ scale: 1.03 }}
+          >
+            <div
+              className="text-3xl md:text-4xl font-black tracking-tight"
+              style={{ color: BRAND, textShadow: "0 10px 30px rgba(6,143,161,0.18)" }}
+            >
+              <CountUp to={5570} start={statsInView} format={formatInt} />
+            </div>
+            <div className="text-sm text-muted-foreground mt-2">Municípios atendidos</div>
+          </motion.div>
 
-                {stat.type === "text" && (
-                  <motion.span
-                    initial={{ opacity: 0, y: 6 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.35 + i * 0.06, duration: 0.35 }}
-                  >
-                    {stat.text}
-                  </motion.span>
-                )}
-              </div>
-
-              <div className="text-sm text-muted-foreground mt-2 group-hover:text-foreground transition-colors">
-                {stat.label}
-              </div>
+          {/* 24/7 */}
+          <motion.div
+            className="rounded-2xl p-6 text-center border backdrop-blur-md"
+            style={{
+              background: "rgba(255,255,255,0.03)",
+              borderColor: "rgba(255,255,255,0.10)",
+              boxShadow: "0 25px 50px -12px rgba(0,0,0,0.45)",
+            }}
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.35, delay: 0.12 }}
+            whileHover={{ scale: 1.03 }}
+          >
+            <motion.div
+              className="text-3xl md:text-4xl font-black tracking-tight"
+              style={{ color: BRAND, textShadow: "0 10px 30px rgba(6,143,161,0.18)" }}
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={statsInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.35, ease: "easeOut" }}
+            >
+              24/7
             </motion.div>
-          ))}
-        </motion.div>
+            <div className="text-sm text-muted-foreground mt-2">Disponibilidade</div>
+          </motion.div>
+
+          {/* 100% */}
+          <motion.div
+            className="rounded-2xl p-6 text-center border backdrop-blur-md"
+            style={{
+              background: "rgba(255,255,255,0.03)",
+              borderColor: "rgba(255,255,255,0.10)",
+              boxShadow: "0 25px 50px -12px rgba(0,0,0,0.45)",
+            }}
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.35, delay: 0.18 }}
+            whileHover={{ scale: 1.03 }}
+          >
+            <div
+              className="text-3xl md:text-4xl font-black tracking-tight"
+              style={{ color: BRAND, textShadow: "0 10px 30px rgba(6,143,161,0.18)" }}
+            >
+              <CountUp to={100} start={statsInView} format={formatPct} />
+            </div>
+            <div className="text-sm text-muted-foreground mt-2">Território nacional</div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
