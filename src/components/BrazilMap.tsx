@@ -1,5 +1,10 @@
-import { motion } from "framer-motion";
-import { useState } from "react";
+import {
+  motion,
+  animate,
+  useInView,
+  useMotionValue,
+} from "framer-motion";
+import { useEffect, useMemo, useRef, useState } from "react";
 import logoBg from "@/assets/logo-bg.png";
 
 const BRAND = "#068fa1";
@@ -47,7 +52,7 @@ const states = [
 const regions = ["Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul"];
 
 /**
- * Coordenadas do seu SVG (brasil_regioes.svg)
+ * Coordenadas baseadas no seu SVG (brasil_regioes.svg)
  * viewBox="0 0 537.59 533.82"
  */
 const statePositions: Record<string, { x: number; y: number }> = {
@@ -84,8 +89,72 @@ const statePositions: Record<string, { x: number; y: number }> = {
   RS: { x: 282.06, y: 476.05 },
 };
 
+type Stat =
+  | { key: string; label: string; type: "int"; value: number }
+  | { key: string; label: string; type: "percent"; value: number }
+  | { key: string; label: string; type: "text"; text: string };
+
+function AnimatedNumber({
+  value,
+  format,
+  className,
+  duration = 0.9,
+}: {
+  value: number;
+  format: (n: number) => string;
+  className?: string;
+  duration?: number;
+}) {
+  const ref = useRef<HTMLSpanElement | null>(null);
+  const inView = useInView(ref, { once: true, margin: "-20% 0px" });
+  const mv = useMotionValue(0);
+  const [display, setDisplay] = useState(format(0));
+
+  useEffect(() => {
+    const unsub = mv.on("change", (latest) => {
+      setDisplay(format(latest));
+    });
+    return () => unsub();
+  }, [mv, format]);
+
+  useEffect(() => {
+    if (!inView) return;
+    const controls = animate(mv, value, {
+      duration,
+      ease: "easeOut",
+    });
+    return () => controls.stop();
+  }, [inView, mv, value, duration]);
+
+  return (
+    <span ref={ref} className={className}>
+      {display}
+    </span>
+  );
+}
+
 export const BrazilMap = () => {
   const [hoveredState, setHoveredState] = useState<string | null>(null);
+
+  const stats: Stat[] = useMemo(
+    () => [
+      { key: "estados", label: "Estados cobertos", type: "int", value: 27 },
+      { key: "municipios", label: "Municípios atendidos", type: "int", value: 5570 },
+      { key: "disp", label: "Disponibilidade", type: "text", text: "24/7" },
+      { key: "territorio", label: "Território nacional", type: "percent", value: 100 },
+    ],
+    []
+  );
+
+  const formatInt = useMemo(() => {
+    const nf = new Intl.NumberFormat("pt-BR");
+    return (n: number) => nf.format(Math.round(n));
+  }, []);
+
+  const formatPercent = useMemo(() => {
+    const nf = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 });
+    return (n: number) => `${nf.format(Math.round(n))}%`;
+  }, []);
 
   return (
     <section className="py-20 md:py-32 relative overflow-hidden" id="atuacao">
@@ -116,7 +185,13 @@ export const BrazilMap = () => {
             transition={{ delay: 0.25 }}
           >
             Presentes em{" "}
-            <span className="gradient-text" style={{ color: BRAND }}>
+            <span
+              className="font-black"
+              style={{
+                color: BRAND,
+                textShadow: "0 14px 40px rgba(6,143,161,.22)",
+              }}
+            >
               todo o Brasil
             </span>
           </motion.h2>
@@ -216,15 +291,15 @@ export const BrazilMap = () => {
             transition={{ duration: 0.55, delay: 0.2 }}
           >
             <div className="relative max-w-lg mx-auto">
-              {/* Mapa real (discreto e moderno) */}
+              {/* Mapa real */}
               <img
                 src="/assets/img/brasil_regioes.svg"
                 alt="Mapa do Brasil"
                 className="w-full h-auto"
                 style={{
-                  opacity: 0.55,
+                  opacity: 0.52,
                   filter:
-                    "drop-shadow(0 16px 28px rgba(6,143,161,.10)) saturate(0.75) contrast(1.12) brightness(0.92)",
+                    "drop-shadow(0 16px 28px rgba(6,143,161,.10)) saturate(0.78) contrast(1.12) brightness(0.92)",
                 }}
               />
 
@@ -253,7 +328,7 @@ export const BrazilMap = () => {
                   return (
                     <motion.g
                       key={state.id}
-                      initial={{ scale: 0.75, opacity: 0 }}
+                      initial={{ scale: 0.78, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{
                         delay: 0.06 + i * 0.01,
@@ -264,7 +339,6 @@ export const BrazilMap = () => {
                       onMouseLeave={() => setHoveredState(null)}
                       style={{ cursor: "pointer", pointerEvents: "auto" }}
                     >
-                      {/* Pulse ring */}
                       {isHovered && (
                         <motion.circle
                           cx={pos.x}
@@ -279,7 +353,6 @@ export const BrazilMap = () => {
                         />
                       )}
 
-                      {/* Marker */}
                       <circle
                         cx={pos.x}
                         cy={pos.y}
@@ -290,7 +363,6 @@ export const BrazilMap = () => {
                         filter={isHovered ? "url(#glowMarker)" : ""}
                       />
 
-                      {/* Sigla */}
                       <text
                         x={pos.x}
                         y={pos.y + 4}
@@ -303,7 +375,6 @@ export const BrazilMap = () => {
                         {state.id}
                       </text>
 
-                      {/* Tooltip */}
                       {isHovered && (
                         <g>
                           <rect
@@ -352,7 +423,7 @@ export const BrazilMap = () => {
           </motion.div>
         </div>
 
-        {/* Stats (com moldura igual antes) */}
+        {/* Stats (SEM EMOJI + com animação nos números + card como antes) */}
         <motion.div
           className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 30 }}
@@ -360,35 +431,53 @@ export const BrazilMap = () => {
           transition={{ delay: 0.25, duration: 0.45 }}
           viewport={{ once: true }}
         >
-          {[
-            { number: "27", label: "Estados cobertos", emoji: "" },
-            { number: "5.570", label: "Municípios atendidos", emoji: "" },
-            { number: "24/7", label: "Disponibilidade", emoji: "" },
-            { number: "100%", label: "Território nacional", emoji: "" },
-          ].map((stat, i) => (
+          {stats.map((stat, i) => (
             <motion.div
-              key={i}
-              className="stat-card group hover:border-primary/40 transition-all"
+              key={stat.key}
+              className="stat-card group hover:border-primary/30 transition-all"
               initial={{ opacity: 0, y: 14, scale: 0.97 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: 0.25 + i * 0.06, duration: 0.4 }}
               viewport={{ once: true }}
               whileHover={{ scale: 1.03 }}
               style={{
-                borderColor: "rgba(6,143,161,0.28)",
-                background:
-                  "linear-gradient(180deg, hsla(220, 30%, 12%, 0.92), hsla(220, 30%, 8%, 0.96))",
-                boxShadow: "0 18px 40px -26px rgba(0,0,0,0.75)",
+                borderColor: "rgba(6,143,161,0.25)",
               }}
             >
-              <div className="text-2xl mb-2">{stat.emoji}</div>
-
-              {/* NÃO usar .stat-number aqui (porque ele deixa transparente) */}
+              {/* Número com animação */}
               <div
-                className="text-3xl md:text-4xl font-black"
-                style={{ color: BRAND }}
+                className="text-3xl md:text-4xl font-black tracking-tight"
+                style={{
+                  color: BRAND,
+                  textShadow: "0 10px 30px rgba(6,143,161,0.20)",
+                }}
               >
-                {stat.number}
+                {stat.type === "int" && (
+                  <AnimatedNumber
+                    value={stat.value}
+                    format={formatInt}
+                    duration={0.95}
+                  />
+                )}
+
+                {stat.type === "percent" && (
+                  <AnimatedNumber
+                    value={stat.value}
+                    format={formatPercent}
+                    duration={0.9}
+                  />
+                )}
+
+                {stat.type === "text" && (
+                  <motion.span
+                    initial={{ opacity: 0, y: 6 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.35 + i * 0.06, duration: 0.35 }}
+                  >
+                    {stat.text}
+                  </motion.span>
+                )}
               </div>
 
               <div className="text-sm text-muted-foreground mt-2 group-hover:text-foreground transition-colors">
