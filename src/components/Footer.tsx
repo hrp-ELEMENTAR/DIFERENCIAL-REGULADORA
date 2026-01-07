@@ -50,7 +50,7 @@ export const Footer = () => {
               </a>
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
-                <span>Atuação em todo território nacional</span>
+                <span>Atuação em todo território nacional.</span>
               </div>
             </div>
           </div>
@@ -60,8 +60,8 @@ export const Footer = () => {
           <div className="text-sm text-muted-foreground text-center md:text-left">
             © {year} Diferencial Reguladora de Sinistro. Todos os direitos reservados.
           </div>
-          <div className="flex items-center gap-2 text-xs text-destructive">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+          <div className="flex items-center gap-2 text-xs text-[#dedede]">
+            <span className="w-2 h-2 rounded-full animate-pulse bg-destructive" />
             Atendimento 24 horas
           </div>
         </div>
