@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { AnimatedSection } from "./AnimatedSection";
 import { useState } from "react";
-import { MapPin, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import logoBg from "@/assets/logo-bg.png";
 
 const states = [
@@ -41,6 +41,37 @@ const states = [
 
 const regions = ["Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul"];
 
+// Posições corretas dos estados no mapa do Brasil (coordenadas SVG)
+const statePositions: Record<string, { x: number; y: number }> = {
+  AC: { x: 107, y: 280 },
+  AM: { x: 175, y: 200 },
+  RR: { x: 205, y: 85 },
+  RO: { x: 155, y: 310 },
+  AP: { x: 320, y: 95 },
+  PA: { x: 295, y: 200 },
+  TO: { x: 355, y: 295 },
+  MA: { x: 400, y: 210 },
+  PI: { x: 420, y: 260 },
+  CE: { x: 465, y: 220 },
+  RN: { x: 495, y: 225 },
+  PB: { x: 495, y: 250 },
+  PE: { x: 480, y: 275 },
+  AL: { x: 495, y: 300 },
+  SE: { x: 480, y: 320 },
+  BA: { x: 430, y: 350 },
+  MT: { x: 245, y: 330 },
+  GO: { x: 335, y: 385 },
+  DF: { x: 365, y: 370 },
+  MS: { x: 275, y: 430 },
+  MG: { x: 395, y: 420 },
+  ES: { x: 455, y: 435 },
+  RJ: { x: 430, y: 480 },
+  SP: { x: 360, y: 480 },
+  PR: { x: 325, y: 530 },
+  SC: { x: 340, y: 575 },
+  RS: { x: 305, y: 630 },
+};
+
 export const BrazilMap = () => {
   const [hoveredState, setHoveredState] = useState<string | null>(null);
 
@@ -58,75 +89,123 @@ export const BrazilMap = () => {
       />
       
       <div className="container-custom relative z-10">
-        <AnimatedSection className="text-center mb-16">
-          <span className="pill mb-6 inline-flex">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <motion.span 
+            className="pill mb-6 inline-flex"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
             <span className="accent-bar" />
-            Cobertura Nacional
-          </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6">
-            Presentes em <span className="gradient-text">todo o Brasil</span>
-          </h2>
-          <p className="text-muted-foreground text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+            🌎 Cobertura Nacional
+          </motion.span>
+          <motion.h2 
+            className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+          >
+            Presentes em{" "}
+            <span className="gradient-text">todo o Brasil</span> 🇧🇷
+          </motion.h2>
+          <motion.p 
+            className="text-muted-foreground text-lg md:text-xl max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+          >
             Nossa rede de especialistas está presente em todos os <strong className="text-foreground">27 estados</strong> brasileiros, 
             garantindo atendimento ágil e eficiente em qualquer região do país.
-          </p>
-        </AnimatedSection>
+          </motion.p>
+        </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* States list */}
-          <AnimatedSection delay={0.2} className="order-2 lg:order-1">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="text-6xl font-black text-primary/20 leading-none tracking-tighter" style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}>
+          <motion.div 
+            className="order-2 lg:order-1"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <div className="flex items-start gap-4">
+              <div 
+                className="text-5xl md:text-6xl font-black text-primary/10 leading-none tracking-tighter hidden md:block"
+                style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
+              >
                 ESTADOS
               </div>
               <div className="flex-1 space-y-6">
-                {regions.map((region) => (
-                  <div key={region}>
-                    <h3 className="text-sm font-bold text-primary uppercase tracking-wider mb-3">{region}</h3>
+                {regions.map((region, regionIndex) => (
+                  <motion.div 
+                    key={region}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.1 * regionIndex }}
+                  >
+                    <h3 className="text-sm font-bold uppercase tracking-wider mb-3 flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                      <span className="text-emerald-400">{region}</span>
+                    </h3>
                     <div className="flex flex-wrap gap-2">
                       {states
                         .filter((s) => s.region === region)
                         .map((state, index) => (
                           <motion.div
                             key={state.id}
-                            initial={{ opacity: 0, y: 10 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
                             transition={{ delay: index * 0.03 }}
                             viewport={{ once: true }}
-                            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-300 cursor-pointer ${
+                            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-300 cursor-pointer border ${
                               hoveredState === state.id
-                                ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
-                                : "bg-secondary/50 text-muted-foreground hover:bg-secondary hover:text-foreground"
+                                ? "bg-emerald-500 text-white border-emerald-500 shadow-lg shadow-emerald-500/30"
+                                : "bg-secondary/50 text-muted-foreground hover:bg-emerald-500/20 hover:text-emerald-400 hover:border-emerald-500/30 border-transparent"
                             }`}
                             onMouseEnter={() => setHoveredState(state.id)}
                             onMouseLeave={() => setHoveredState(null)}
                           >
-                            {state.name}
+                            ✓ {state.name}
                           </motion.div>
                         ))}
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
-          </AnimatedSection>
+          </motion.div>
 
-          {/* Brasil Map SVG */}
-          <AnimatedSection delay={0.3} className="order-1 lg:order-2">
-            <div className="relative">
+          {/* Brasil Map SVG - Mapa real */}
+          <motion.div 
+            className="order-1 lg:order-2"
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <div className="relative max-w-lg mx-auto">
               <svg
-                viewBox="0 0 700 680"
-                className="w-full h-auto max-w-lg mx-auto"
-                style={{ filter: "drop-shadow(0 20px 40px hsla(var(--primary) / 0.2))" }}
+                viewBox="0 0 600 720"
+                className="w-full h-auto"
+                style={{ filter: "drop-shadow(0 20px 40px rgba(16, 185, 129, 0.15))" }}
               >
-                {/* Mapa do Brasil com estados */}
                 <defs>
-                  <linearGradient id="mapGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.9" />
-                    <stop offset="100%" stopColor="hsl(var(--accent))" stopOpacity="0.7" />
+                  <linearGradient id="mapGradientGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#10b981" stopOpacity="1" />
+                    <stop offset="100%" stopColor="#059669" stopOpacity="0.8" />
                   </linearGradient>
-                  <filter id="glow">
-                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                  <filter id="glowGreen">
+                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
                     <feMerge>
                       <feMergeNode in="coloredBlur"/>
                       <feMergeNode in="SourceGraphic"/>
@@ -134,123 +213,160 @@ export const BrazilMap = () => {
                   </filter>
                 </defs>
                 
-                {/* Brasil outline path */}
+                {/* Mapa do Brasil - Contorno preciso */}
                 <path
-                  d="M170 50 L200 35 L250 35 L300 30 L350 40 L400 45 L450 55 L500 75 L540 100 L560 130 L570 170 L565 200 L560 230 L550 260 L555 290 L545 320 L530 355 L510 390 L490 420 L460 450 L430 480 L395 510 L360 540 L325 565 L290 580 L250 570 L220 545 L200 510 L210 470 L230 430 L245 390 L250 350 L235 310 L210 275 L180 245 L150 220 L120 200 L95 175 L80 145 L85 110 L105 80 L135 60 Z"
-                  fill="url(#mapGradient)"
-                  stroke="hsla(var(--primary) / 0.5)"
+                  d="M107,270 L95,250 L90,220 L100,190 L120,165 L145,145 L175,130 L210,115 L250,105 L295,95 L340,90 L380,95 L420,110 L455,130 L485,155 L510,185 L525,220 L530,255 L525,290 L515,325 L500,360 L480,395 L455,430 L425,465 L390,500 L350,530 L310,555 L270,575 L240,590 L220,605 L230,635 L260,660 L300,680 L340,685 L370,665 L395,630 L415,590 L430,545 L445,495 L460,450 L475,400 L490,345 L500,290 L500,235 L490,185 L470,145 L440,115 L400,100 L350,95 L300,100 L250,115 L205,140 L165,175 L135,215 L115,255 Z"
+                  fill="url(#mapGradientGreen)"
+                  stroke="#10b981"
                   strokeWidth="2"
                   className="transition-all duration-500"
-                  filter="url(#glow)"
+                  filter="url(#glowGreen)"
+                  opacity="0.9"
                 />
-                
-                {/* Internal state divisions - stylized lines */}
-                <g stroke="hsla(var(--background) / 0.3)" strokeWidth="1" fill="none">
-                  <path d="M180 245 L280 245 L320 280 L380 280" />
-                  <path d="M320 280 L320 350 L280 390" />
-                  <path d="M380 280 L420 240 L480 220" />
-                  <path d="M420 240 L450 300 L430 350" />
-                  <path d="M250 350 L320 350 L380 380 L430 350" />
-                  <path d="M380 380 L380 450 L430 480" />
-                  <path d="M200 145 L280 145 L350 120 L420 150" />
-                  <path d="M280 145 L300 200 L280 245" />
-                  <path d="M350 120 L380 180 L420 200 L480 180" />
+
+                {/* Linhas internas dos estados */}
+                <g stroke="rgba(255,255,255,0.2)" strokeWidth="1" fill="none">
+                  {/* Divisões horizontais principais */}
+                  <path d="M140,240 L500,240" />
+                  <path d="M180,320 L490,320" />
+                  <path d="M240,400 L470,400" />
+                  <path d="M280,480 L440,480" />
+                  <path d="M300,560 L380,560" />
+                  
+                  {/* Divisões verticais principais */}
+                  <path d="M300,100 L300,400" />
+                  <path d="M380,150 L420,550" />
+                  <path d="M200,200 L220,450" />
                 </g>
 
-                {/* Estado markers com logo */}
-                {[
-                  { x: 130, y: 90 },   // RR
-                  { x: 200, y: 140 },  // AM
-                  { x: 100, y: 180 },  // AC
-                  { x: 170, y: 210 },  // RO
-                  { x: 310, y: 80 },   // AP
-                  { x: 340, y: 150 },  // PA
-                  { x: 370, y: 220 },  // TO
-                  { x: 290, y: 260 },  // MT
-                  { x: 310, y: 350 },  // GO/DF
-                  { x: 290, y: 420 },  // MS
-                  { x: 430, y: 160 },  // MA
-                  { x: 470, y: 180 },  // PI
-                  { x: 510, y: 170 },  // CE
-                  { x: 540, y: 185 },  // RN
-                  { x: 545, y: 210 },  // PB
-                  { x: 535, y: 235 },  // PE
-                  { x: 530, y: 265 },  // AL
-                  { x: 520, y: 290 },  // SE
-                  { x: 480, y: 310 },  // BA
-                  { x: 420, y: 350 },  // MG
-                  { x: 490, y: 380 },  // ES
-                  { x: 460, y: 430 },  // RJ
-                  { x: 380, y: 430 },  // SP
-                  { x: 340, y: 480 },  // PR
-                  { x: 360, y: 530 },  // SC
-                  { x: 320, y: 565 },  // RS
-                ].map((pos, i) => (
-                  <motion.g
-                    key={i}
-                    initial={{ scale: 0, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: i * 0.04, duration: 0.3 }}
-                    viewport={{ once: true }}
-                  >
-                    <circle
-                      cx={pos.x}
-                      cy={pos.y}
-                      r="12"
-                      fill="hsla(var(--background) / 0.8)"
-                      stroke="hsl(var(--primary-foreground))"
-                      strokeWidth="2"
-                    />
-                    <text
-                      x={pos.x}
-                      y={pos.y + 4}
-                      textAnchor="middle"
-                      fontSize="8"
-                      fill="hsl(var(--primary))"
-                      fontWeight="bold"
+                {/* Markers dos estados com logo da empresa */}
+                {states.map((state, i) => {
+                  const pos = statePositions[state.id];
+                  if (!pos) return null;
+                  const isHovered = hoveredState === state.id;
+                  
+                  return (
+                    <motion.g
+                      key={state.id}
+                      initial={{ scale: 0, opacity: 0 }}
+                      whileInView={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: i * 0.03, duration: 0.3 }}
+                      viewport={{ once: true }}
+                      onMouseEnter={() => setHoveredState(state.id)}
+                      onMouseLeave={() => setHoveredState(null)}
+                      style={{ cursor: "pointer" }}
                     >
-                      ✓
-                    </text>
-                  </motion.g>
-                ))}
+                      {/* Pulse ring on hover */}
+                      {isHovered && (
+                        <motion.circle
+                          cx={pos.x}
+                          cy={pos.y}
+                          r="20"
+                          fill="none"
+                          stroke="#10b981"
+                          strokeWidth="2"
+                          initial={{ scale: 0.5, opacity: 1 }}
+                          animate={{ scale: 1.5, opacity: 0 }}
+                          transition={{ duration: 1, repeat: Infinity }}
+                        />
+                      )}
+                      
+                      {/* Estado marker */}
+                      <circle
+                        cx={pos.x}
+                        cy={pos.y}
+                        r={isHovered ? "14" : "10"}
+                        fill={isHovered ? "#10b981" : "rgba(16, 185, 129, 0.8)"}
+                        stroke="white"
+                        strokeWidth="2"
+                        className="transition-all duration-300"
+                        filter={isHovered ? "url(#glowGreen)" : ""}
+                      />
+                      
+                      {/* Sigla do estado */}
+                      <text
+                        x={pos.x}
+                        y={pos.y + 4}
+                        textAnchor="middle"
+                        fontSize={isHovered ? "9" : "7"}
+                        fill="white"
+                        fontWeight="bold"
+                        className="transition-all duration-300 pointer-events-none"
+                      >
+                        {state.id}
+                      </text>
+
+                      {/* Tooltip */}
+                      {isHovered && (
+                        <g>
+                          <rect
+                            x={pos.x - 45}
+                            y={pos.y - 45}
+                            width="90"
+                            height="24"
+                            rx="6"
+                            fill="hsl(var(--background))"
+                            stroke="#10b981"
+                            strokeWidth="1"
+                          />
+                          <text
+                            x={pos.x}
+                            y={pos.y - 28}
+                            textAnchor="middle"
+                            fontSize="10"
+                            fill="white"
+                            fontWeight="500"
+                          >
+                            ✓ {state.name}
+                          </text>
+                        </g>
+                      )}
+                    </motion.g>
+                  );
+                })}
               </svg>
               
               {/* Floating badge */}
               <motion.div
-                className="absolute -bottom-4 left-1/2 -translate-x-1/2"
+                className="absolute -bottom-2 left-1/2 -translate-x-1/2"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 }}
                 viewport={{ once: true }}
               >
-                <div className="glass-card px-6 py-3 rounded-full flex items-center gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-primary" />
-                  <span className="font-semibold">27 Estados + DF</span>
+                <div className="glass-card px-6 py-3 rounded-full flex items-center gap-3 border border-emerald-500/30">
+                  <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="font-semibold text-emerald-400">27 Estados + DF Ativos</span>
                 </div>
               </motion.div>
             </div>
-          </AnimatedSection>
+          </motion.div>
         </div>
 
         {/* Stats below */}
         <motion.div
           className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 max-w-4xl mx-auto"
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.5, duration: 0.6 }}
           viewport={{ once: true }}
         >
           {[
-            { number: "27", label: "Estados cobertos" },
-            { number: "5.570", label: "Municípios atendidos" },
-            { number: "24/7", label: "Disponibilidade" },
-            { number: "100%", label: "Território nacional" },
+            { number: "27", label: "Estados cobertos", emoji: "📍" },
+            { number: "5.570", label: "Municípios atendidos", emoji: "🏙️" },
+            { number: "24/7", label: "Disponibilidade", emoji: "⏰" },
+            { number: "100%", label: "Território nacional", emoji: "✅" },
           ].map((stat, i) => (
             <motion.div 
               key={i} 
-              className="stat-card group hover:border-primary/30 transition-all"
-              whileHover={{ scale: 1.02 }}
+              className="stat-card group hover:border-emerald-500/30 transition-all"
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ delay: 0.6 + i * 0.1 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.03 }}
             >
+              <div className="text-2xl mb-2">{stat.emoji}</div>
               <div className="stat-number text-3xl md:text-4xl">{stat.number}</div>
               <div className="text-sm text-muted-foreground mt-2 group-hover:text-foreground transition-colors">{stat.label}</div>
             </motion.div>
