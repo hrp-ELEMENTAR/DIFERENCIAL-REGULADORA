@@ -47,7 +47,7 @@ const states = [
 const regions = ["Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul"];
 
 /**
- * Coordenadas recalculadas a partir do seu SVG (brasil_regioes.svg)
+ * Coordenadas do seu SVG (brasil_regioes.svg)
  * viewBox="0 0 537.59 533.82"
  */
 const statePositions: Record<string, { x: number; y: number }> = {
@@ -116,7 +116,9 @@ export const BrazilMap = () => {
             transition={{ delay: 0.25 }}
           >
             Presentes em{" "}
-            <span className="gradient-text">todo o Brasil</span>
+            <span className="gradient-text" style={{ color: BRAND }}>
+              todo o Brasil
+            </span>
           </motion.h2>
 
           <motion.p
@@ -220,7 +222,7 @@ export const BrazilMap = () => {
                 alt="Mapa do Brasil"
                 className="w-full h-auto"
                 style={{
-                  opacity: 0.5,
+                  opacity: 0.55,
                   filter:
                     "drop-shadow(0 16px 28px rgba(6,143,161,.10)) saturate(0.75) contrast(1.12) brightness(0.92)",
                 }}
@@ -323,4 +325,79 @@ export const BrazilMap = () => {
                             fontWeight="500"
                           >
                             ✓ {state.name}
-                          </
+                          </text>
+                        </g>
+                      )}
+                    </motion.g>
+                  );
+                })}
+              </svg>
+
+              {/* Floating badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.35 }}
+                viewport={{ once: true }}
+                className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-[#dedede]"
+              >
+                <div className="glass-card px-6 py-3 rounded-full flex items-center gap-3 border border-[#dedede]">
+                  <span className="w-3 h-3 rounded-full animate-pulse bg-[#ba1212]" />
+                  <span className="font-semibold text-[#dedede]">
+                    27 Estados + DF Ativos
+                  </span>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Stats (com moldura igual antes) */}
+        <motion.div
+          className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 max-w-4xl mx-auto"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25, duration: 0.45 }}
+          viewport={{ once: true }}
+        >
+          {[
+            { number: "27", label: "Estados cobertos", emoji: "📍" },
+            { number: "5.570", label: "Municípios atendidos", emoji: "🏙️" },
+            { number: "24/7", label: "Disponibilidade", emoji: "⏰" },
+            { number: "100%", label: "Território nacional", emoji: "✅" },
+          ].map((stat, i) => (
+            <motion.div
+              key={i}
+              className="stat-card group hover:border-primary/40 transition-all"
+              initial={{ opacity: 0, y: 14, scale: 0.97 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ delay: 0.25 + i * 0.06, duration: 0.4 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.03 }}
+              style={{
+                borderColor: "rgba(6,143,161,0.28)",
+                background:
+                  "linear-gradient(180deg, hsla(220, 30%, 12%, 0.92), hsla(220, 30%, 8%, 0.96))",
+                boxShadow: "0 18px 40px -26px rgba(0,0,0,0.75)",
+              }}
+            >
+              <div className="text-2xl mb-2">{stat.emoji}</div>
+
+              {/* NÃO usar .stat-number aqui (porque ele deixa transparente) */}
+              <div
+                className="text-3xl md:text-4xl font-black"
+                style={{ color: BRAND }}
+              >
+                {stat.number}
+              </div>
+
+              <div className="text-sm text-muted-foreground mt-2 group-hover:text-foreground transition-colors">
+                {stat.label}
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+};
