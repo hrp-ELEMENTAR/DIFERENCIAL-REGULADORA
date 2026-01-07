@@ -18,7 +18,7 @@ export const Footer = () => {
           <div className="space-y-4">
             <h4 className="font-bold text-foreground">Navegação</h4>
             <div className="flex flex-col gap-3">
-              <a href="#servicos" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <a href="#servicos" className="text-sm text-muted-foreground hover:text-primary transition-colors bg-inherit">
                 Serviços
               </a>
               <a href="#como-funciona" className="text-sm text-muted-foreground hover:text-primary transition-colors">
@@ -60,7 +60,7 @@ export const Footer = () => {
           <div className="text-sm text-muted-foreground text-center md:text-left">
             © {year} Diferencial Reguladora de Sinistro. Todos os direitos reservados.
           </div>
-          <div className="flex items-center gap-2 text-xs text-muted-foreground/60">
+          <div className="flex items-center gap-2 text-xs text-destructive">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             Atendimento 24 horas
           </div>
