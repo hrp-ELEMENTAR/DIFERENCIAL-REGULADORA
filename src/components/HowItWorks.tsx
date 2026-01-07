@@ -63,7 +63,7 @@ export const HowItWorks = () => {
           delay: 0.3
         }}>
             Processo{" "}
-            <span className="gradient-text">simples e transparente</span> 🎯
+            <span className="gradient-text">simples e transparente</span> 
           </motion.h2>
           <motion.p className="text-muted-foreground text-lg md:text-xl" initial={{
           opacity: 0,
