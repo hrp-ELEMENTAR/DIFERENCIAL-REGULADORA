@@ -5,7 +5,7 @@ export const Footer = () => {
       <div className="container-custom">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <img alt="Diferencial" className="h-8 w-auto opacity-70" src="/lovable-uploads/9b25929f-8887-47f9-8816-68c211161b6d.png" />
+            <img alt="Diferencial" src="/lovable-uploads/9b25929f-8887-47f9-8816-68c211161b6d.png" className="h-8 w-auto object-cover opacity-95" />
           </div>
           
           <div className="text-sm text-muted-foreground text-center">
