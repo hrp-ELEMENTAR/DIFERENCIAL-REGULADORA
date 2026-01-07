@@ -67,7 +67,7 @@ export const SLA = () => {
             delay: 0.4
           }}>
               Prazos que você pode{" "}
-              <span className="gradient-text text-cyan-600">confiar</span> 💯
+              <span className="gradient-text text-cyan-600">confiar</span> 
             </motion.h2>
             <motion.p className="text-muted-foreground text-lg md:text-xl" initial={{
             opacity: 0,
