@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import logoBg from "@/assets/logo-bg.png";
 
-const BRAND = "#088da0"; // sua cor
+const BRAND = "#088da0";
+const MARKER = "#dedede";
 
 const states = [
   // Norte
@@ -45,35 +46,42 @@ const states = [
 
 const regions = ["Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul"];
 
-// coordenadas (mantidas) — elas só vão bater se o seu novo SVG tiver proporção parecida
+/**
+ * Coordenadas adaptadas para o viewBox do seu SVG real:
+ * viewBox="0 0 537.59 533.82"
+ */
 const statePositions: Record<string, { x: number; y: number }> = {
-  AC: { x: 107, y: 280 },
-  AM: { x: 175, y: 200 },
-  RR: { x: 205, y: 85 },
-  RO: { x: 155, y: 310 },
-  AP: { x: 320, y: 95 },
-  PA: { x: 295, y: 200 },
-  TO: { x: 355, y: 295 },
-  MA: { x: 400, y: 210 },
-  PI: { x: 420, y: 260 },
-  CE: { x: 465, y: 220 },
-  RN: { x: 495, y: 225 },
-  PB: { x: 495, y: 250 },
-  PE: { x: 480, y: 275 },
-  AL: { x: 495, y: 300 },
-  SE: { x: 480, y: 320 },
-  BA: { x: 430, y: 350 },
-  MT: { x: 245, y: 330 },
-  GO: { x: 335, y: 385 },
-  DF: { x: 365, y: 370 },
-  MS: { x: 275, y: 430 },
-  MG: { x: 395, y: 420 },
-  ES: { x: 455, y: 435 },
-  RJ: { x: 430, y: 480 },
-  SP: { x: 360, y: 480 },
-  PR: { x: 325, y: 530 },
-  SC: { x: 340, y: 575 },
-  RS: { x: 305, y: 630 },
+  AC: { x: 95.87, y: 207.6 },
+  AM: { x: 156.8, y: 148.28 },
+  RR: { x: 183.68, y: 63.02 },
+  RO: { x: 138.88, y: 229.84 },
+  AP: { x: 286.71, y: 70.43 },
+  PA: { x: 264.32, y: 148.28 },
+  TO: { x: 318.07, y: 218.72 },
+
+  MA: { x: 358.39, y: 155.7 },
+  PI: { x: 376.31, y: 192.77 },
+  CE: { x: 416.63, y: 163.11 },
+  RN: { x: 443.51, y: 166.82 },
+  PB: { x: 443.51, y: 185.35 },
+  PE: { x: 430.07, y: 203.89 },
+  AL: { x: 443.51, y: 222.43 },
+  SE: { x: 430.07, y: 237.25 },
+  BA: { x: 385.27, y: 259.5 },
+
+  MT: { x: 219.52, y: 244.67 },
+  GO: { x: 300.15, y: 285.45 },
+  DF: { x: 327.03, y: 274.32 },
+  MS: { x: 246.4, y: 318.81 },
+
+  MG: { x: 353.91, y: 311.4 },
+  ES: { x: 407.67, y: 322.52 },
+  RJ: { x: 385.27, y: 355.88 },
+  SP: { x: 322.55, y: 355.88 },
+
+  PR: { x: 291.19, y: 392.95 },
+  SC: { x: 304.63, y: 426.31 },
+  RS: { x: 273.27, y: 467.09 },
 };
 
 export const BrazilMap = () => {
@@ -151,7 +159,10 @@ export const BrazilMap = () => {
                     transition={{ delay: 0.1 * regionIndex }}
                   >
                     <h3 className="text-sm font-bold uppercase tracking-wider mb-3 flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full" style={{ backgroundColor: BRAND }} />
+                      <span
+                        className="w-2 h-2 rounded-full"
+                        style={{ backgroundColor: BRAND }}
+                      />
                       <span className="text-[#dedede]">{region}</span>
                     </h3>
 
@@ -194,7 +205,7 @@ export const BrazilMap = () => {
             </div>
           </motion.div>
 
-          {/* MAPA REAL (imagem) + MARKERS (SVG transparente por cima) */}
+          {/* MAPA REAL (imagem) + MARKERS (SVG por cima) */}
           <motion.div
             className="order-1 lg:order-2"
             initial={{ opacity: 0, x: 50 }}
@@ -203,24 +214,24 @@ export const BrazilMap = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             <div className="relative max-w-lg mx-auto">
-              {/* 1) Imagem do mapa real (vem do public/) */}
+              {/* 1) Imagem do mapa real (o arquivo precisa estar em public/assets/img/brasil_regioes.svg) */}
               <img
                 src="/assets/img/brasil_regioes.svg"
                 alt="Mapa do Brasil"
                 className="w-full h-auto"
                 style={{
-                  filter: "drop-shadow(0 20px 40px rgba(8,141,160,.15))",
+                  filter: "drop-shadow(0 20px 40px rgba(8,141,160,.12))",
                 }}
               />
 
-              {/* 2) SVG transparente só para markers/tooltip (mantém coordenadas) */}
+              {/* 2) Overlay para markers/tooltip (mesmo viewBox do SVG real) */}
               <svg
-                viewBox="0 0 600 720"
+                viewBox="0 0 537.59 533.82"
                 className="absolute inset-0 w-full h-full"
                 style={{ pointerEvents: "none" }}
               >
                 <defs>
-                  <filter id="glowBrand">
+                  <filter id="glowMarker">
                     <feGaussianBlur stdDeviation="2" result="coloredBlur" />
                     <feMerge>
                       <feMergeNode in="coloredBlur" />
@@ -229,7 +240,6 @@ export const BrazilMap = () => {
                   </filter>
                 </defs>
 
-                {/* Markers dos estados */}
                 {states.map((state, i) => {
                   const pos = statePositions[state.id];
                   if (!pos) return null;
@@ -247,14 +257,14 @@ export const BrazilMap = () => {
                       onMouseLeave={() => setHoveredState(null)}
                       style={{ cursor: "pointer", pointerEvents: "auto" }}
                     >
-                      {/* Pulse ring on hover */}
+                      {/* Pulse ring (DEDEDE) */}
                       {isHovered && (
                         <motion.circle
                           cx={pos.x}
                           cy={pos.y}
                           r="20"
                           fill="none"
-                          stroke={BRAND}
+                          stroke={MARKER}
                           strokeWidth="2"
                           initial={{ scale: 0.5, opacity: 1 }}
                           animate={{ scale: 1.5, opacity: 0 }}
@@ -262,15 +272,15 @@ export const BrazilMap = () => {
                         />
                       )}
 
-                      {/* Estado marker */}
+                      {/* Marker (DEDEDE) */}
                       <circle
                         cx={pos.x}
                         cy={pos.y}
                         r={isHovered ? "14" : "10"}
-                        fill={isHovered ? BRAND : "rgba(8,141,160,0.85)"}
+                        fill={isHovered ? MARKER : "rgba(222,222,222,0.75)"}
                         stroke="white"
                         strokeWidth="2"
-                        filter={isHovered ? "url(#glowBrand)" : ""}
+                        filter={isHovered ? "url(#glowMarker)" : ""}
                       />
 
                       {/* Sigla */}
@@ -296,7 +306,7 @@ export const BrazilMap = () => {
                             height="26"
                             rx="6"
                             fill="rgba(0,0,0,0.65)"
-                            stroke={BRAND}
+                            stroke={MARKER}
                             strokeWidth="1"
                           />
                           <text
@@ -360,7 +370,10 @@ export const BrazilMap = () => {
               style={{ borderColor: "rgba(8,141,160,0.25)" }}
             >
               <div className="text-2xl mb-2">{stat.emoji}</div>
-              <div className="stat-number text-3xl md:text-4xl" style={{ color: BRAND }}>
+              <div
+                className="stat-number text-3xl md:text-4xl"
+                style={{ color: BRAND }}
+              >
                 {stat.number}
               </div>
               <div className="text-sm text-muted-foreground mt-2 group-hover:text-foreground transition-colors">
