@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import logoBg from "@/assets/logo-bg.png";
 
-const BRAND = "#088da0";
+const BRAND = "#068fa1";
 const MARKER = "#068fa1";
 
 const states = [
@@ -49,7 +49,6 @@ const regions = ["Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul"];
 /**
  * Coordenadas recalculadas a partir do seu SVG (brasil_regioes.svg)
  * viewBox="0 0 537.59 533.82"
- * (centro aproximado de cada estado no seu mapa)
  */
 const statePositions: Record<string, { x: number; y: number }> = {
   AC: { x: 49.61, y: 205.48 },
@@ -61,7 +60,7 @@ const statePositions: Record<string, { x: number; y: number }> = {
   TO: { x: 283.58, y: 218.22 },
 
   MA: { x: 332.91, y: 85.31 },
-  PI: { x: 393.20, y: 142.94 },
+  PI: { x: 393.2, y: 142.94 },
   CE: { x: 424.08, y: 175.62 },
   RN: { x: 470.93, y: 146.56 },
   PB: { x: 492.39, y: 191.71 },
@@ -78,7 +77,7 @@ const statePositions: Record<string, { x: number; y: number }> = {
   MG: { x: 395.83, y: 324.98 },
   ES: { x: 447.11, y: 343.09 },
   RJ: { x: 419.93, y: 377.36 },
-  SP: { x: 340.95, y: 375.30 },
+  SP: { x: 340.95, y: 375.3 },
 
   PR: { x: 302.94, y: 406.26 },
   SC: { x: 317.63, y: 442.51 },
@@ -92,10 +91,10 @@ export const BrazilMap = () => {
     <section className="py-20 md:py-32 relative overflow-hidden" id="atuacao">
       {/* Background logo (menos apagada) */}
       <div
-        className="absolute inset-0 opacity-[0.07] pointer-events-none"
+        className="absolute inset-0 opacity-[0.08] pointer-events-none"
         style={{
           backgroundImage: `url(${logoBg})`,
-          backgroundSize: "620px",
+          backgroundSize: "640px",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
         }}
@@ -117,7 +116,7 @@ export const BrazilMap = () => {
             transition={{ delay: 0.25 }}
           >
             Presentes em{" "}
-            <span className="gradient-text text-primary">todo o Brasil</span> 🇧🇷
+            <span className="gradient-text">todo o Brasil</span>
           </motion.h2>
 
           <motion.p
@@ -177,7 +176,7 @@ export const BrazilMap = () => {
                             whileInView={{ opacity: 1, scale: 1 }}
                             transition={{ delay: index * 0.02 }}
                             viewport={{ once: true }}
-                            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-250 cursor-pointer border ${
+                            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer border ${
                               hoveredState === state.id
                                 ? "text-white shadow-lg"
                                 : "bg-secondary/50 text-muted-foreground hover:text-white border-transparent"
@@ -187,7 +186,7 @@ export const BrazilMap = () => {
                                 ? {
                                     backgroundColor: BRAND,
                                     borderColor: BRAND,
-                                    boxShadow: `0 10px 30px rgba(8,141,160,.25)`,
+                                    boxShadow: `0 10px 30px rgba(6,143,161,.22)`,
                                   }
                                 : {
                                     backgroundColor: "rgba(255,255,255,0.03)",
@@ -221,9 +220,9 @@ export const BrazilMap = () => {
                 alt="Mapa do Brasil"
                 className="w-full h-auto"
                 style={{
-                  opacity: 0.42,
+                  opacity: 0.5,
                   filter:
-                    "drop-shadow(0 16px 28px rgba(8,141,160,.10)) saturate(0.72) contrast(1.15) brightness(0.9)",
+                    "drop-shadow(0 16px 28px rgba(6,143,161,.10)) saturate(0.75) contrast(1.12) brightness(0.92)",
                 }}
               />
 
@@ -243,7 +242,6 @@ export const BrazilMap = () => {
                   </filter>
                 </defs>
 
-                {/* IMPORTANTE: markers agora aparecem mais rápido (sem whileInView) */}
                 {states.map((state, i) => {
                   const pos = statePositions[state.id];
                   if (!pos) return null;
@@ -253,11 +251,11 @@ export const BrazilMap = () => {
                   return (
                     <motion.g
                       key={state.id}
-                      initial={{ scale: 0.6, opacity: 0 }}
+                      initial={{ scale: 0.75, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{
-                        delay: 0.08 + i * 0.012,
-                        duration: 0.25,
+                        delay: 0.06 + i * 0.01,
+                        duration: 0.22,
                         ease: "easeOut",
                       }}
                       onMouseEnter={() => setHoveredState(state.id)}
@@ -279,7 +277,7 @@ export const BrazilMap = () => {
                         />
                       )}
 
-                      {/* Marker (maior + glass) */}
+                      {/* Marker */}
                       <circle
                         cx={pos.x}
                         cy={pos.y}
@@ -325,71 +323,4 @@ export const BrazilMap = () => {
                             fontWeight="500"
                           >
                             ✓ {state.name}
-                          </text>
-                        </g>
-                      )}
-                    </motion.g>
-                  );
-                })}
-              </svg>
-
-              {/* Floating badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.35 }}
-                viewport={{ once: true }}
-                className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-[#dedede]"
-              >
-                <div className="glass-card px-6 py-3 rounded-full flex items-center gap-3 border border-[#dedede]">
-                  <span className="w-3 h-3 rounded-full animate-pulse bg-[#ba1212]" />
-                  <span className="font-semibold text-[#dedede]">
-                    27 Estados + DF Ativos
-                  </span>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Stats */}
-        <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 max-w-4xl mx-auto"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.45 }}
-          viewport={{ once: true }}
-        >
-          {[
-            { number: "27", label: "Estados cobertos", emoji: "📍" },
-            { number: "5.570", label: "Municípios atendidos", emoji: "🏙️" },
-            { number: "24/7", label: "Disponibilidade", emoji: "⏰" },
-            { number: "100%", label: "Território nacional", emoji: "✅" },
-          ].map((stat, i) => (
-            <motion.div
-              key={i}
-              className="stat-card group transition-all"
-              initial={{ opacity: 0, y: 14, scale: 0.97 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ delay: 0.25 + i * 0.06, duration: 0.4 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.03 }}
-              style={{ borderColor: "rgba(8,141,160,0.25)" }}
-            >
-              <div className="text-2xl mb-2">{stat.emoji}</div>
-              <div
-                className="stat-number text-3xl md:text-4xl"
-                style={{ color: BRAND }}
-              >
-                {stat.number}
-              </div>
-              <div className="text-sm text-muted-foreground mt-2 group-hover:text-foreground transition-colors">
-                {stat.label}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-};
+                          </
