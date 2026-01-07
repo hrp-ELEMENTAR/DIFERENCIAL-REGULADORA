@@ -214,15 +214,15 @@ export const BrazilMap = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             <div className="relative max-w-lg mx-auto">
-              {/* Mapa real (mais sutil e moderno) */}
+              {/* Mapa real (bem discreto, estilo background moderno) */}
               <img
                 src="/assets/img/brasil_regioes.svg"
                 alt="Mapa do Brasil"
                 className="w-full h-auto"
                 style={{
-                  opacity: 0.62, // sutil (não fica branco demais)
+                  opacity: 0.38,
                   filter:
-                    "drop-shadow(0 18px 34px rgba(8,141,160,.10)) saturate(0.85) contrast(1.05)",
+                    "drop-shadow(0 16px 28px rgba(8,141,160,.10)) saturate(0.7) contrast(1.15) brightness(0.9)",
                 }}
               />
 
@@ -234,7 +234,7 @@ export const BrazilMap = () => {
               >
                 <defs>
                   <filter id="glowMarker">
-                    <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur" />
                     <feMerge>
                       <feMergeNode in="coloredBlur" />
                       <feMergeNode in="SourceGraphic" />
@@ -274,14 +274,14 @@ export const BrazilMap = () => {
                         />
                       )}
 
-                      {/* Marker */}
+                      {/* Marker (glass/modern) */}
                       <circle
                         cx={pos.x}
                         cy={pos.y}
                         r={isHovered ? "16" : "12"}
-                        fill={MARKER}
-                        stroke="white"
-                        strokeWidth="2"
+                        fill="rgba(6,143,161,0.95)"
+                        stroke="rgba(255,255,255,0.85)"
+                        strokeWidth="2.2"
                         filter={isHovered ? "url(#glowMarker)" : ""}
                       />
 
