@@ -69,7 +69,7 @@ export const Differentials = () => {
             delay: 0.3
           }}>
               Mais que uma reguladora.{" "}
-              <span className="gradient-text">Seu parceiro estratégico.</span> 🤝
+              <span className="gradient-text">Seu parceiro estratégico.</span> 
             </motion.h2>
             <motion.p className="text-muted-foreground text-lg md:text-xl mb-10 leading-relaxed" initial={{
             opacity: 0,
@@ -109,7 +109,7 @@ export const Differentials = () => {
               <div className="section-divider !my-4" />
               <p className="text-muted-foreground italic leading-relaxed">
                 "Nosso compromisso é entregar resultados com transparência, 
-                reduzindo seu retrabalho e protegendo seu patrimônio." ✨
+                reduzindo seu retrabalho e protegendo seu patrimônio." 
               </p>
             </motion.div>
           </motion.div>
