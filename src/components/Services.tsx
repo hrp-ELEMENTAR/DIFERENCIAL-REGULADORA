@@ -61,7 +61,7 @@ export const Services = () => {
           once: true
         }} transition={{
           delay: 0.2
-        }}>🛠️ Nossos Serviços</motion.span>
+        }}> NOSSOS SERVIÇOS</motion.span>
           <motion.h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight" initial={{
           opacity: 0,
           y: 20
