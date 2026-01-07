@@ -1,4 +1,3 @@
-```tsx
 import { motion } from "framer-motion";
 import { useState } from "react";
 import logoBg from "@/assets/logo-bg.png";
@@ -389,4 +388,3 @@ export const BrazilMap = () => {
     </section>
   );
 };
-```
