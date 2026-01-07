@@ -2,6 +2,7 @@ import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
 import { HowItWorks } from "@/components/HowItWorks";
+import { BrazilMap } from "@/components/BrazilMap";
 import { Differentials } from "@/components/Differentials";
 import { SLA } from "@/components/SLA";
 import { Contact } from "@/components/Contact";
@@ -17,6 +18,7 @@ const Index = () => {
         <div className="section-divider container-custom" />
         <Services />
         <HowItWorks />
+        <BrazilMap />
         <Differentials />
         <SLA />
         <Contact />
