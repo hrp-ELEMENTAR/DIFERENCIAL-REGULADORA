@@ -1,20 +1,13 @@
 import { Phone, Mail, MapPin } from "lucide-react";
 import logo from "@/assets/logo.png";
-
 export const Footer = () => {
   const year = new Date().getFullYear();
-
-  return (
-    <footer className="border-t border-border/20 bg-card/50">
+  return <footer className="border-t border-border/20 bg-card/50">
       <div className="container-custom py-12 md:py-16">
         <div className="grid md:grid-cols-3 gap-10 md:gap-8">
           {/* Logo e descrição */}
           <div className="space-y-6">
-            <img
-              alt="Diferencial Reguladora de Sinistro"
-              src={logo}
-              className="h-16 md:h-20 w-auto object-contain"
-            />
+            <img alt="Diferencial Reguladora de Sinistro" className="h-16 md:h-20 w-auto object-contain" src="/lovable-uploads/7a59a6ab-805d-4ae2-bd20-cd13d2c7c8cb.png" />
             <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
               Especialistas em regulação de sinistros de transporte e frotas. 
               Atuação em todo o território nacional.
@@ -73,6 +66,5 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
