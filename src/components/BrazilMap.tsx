@@ -3,7 +3,7 @@ import { useState } from "react";
 import logoBg from "@/assets/logo-bg.png";
 
 const BRAND = "#088da0";
-const MARKER = "#dedede";
+const MARKER = "#068fa1";
 
 const states = [
   // Norte
@@ -47,7 +47,7 @@ const states = [
 const regions = ["Norte", "Nordeste", "Centro-Oeste", "Sudeste", "Sul"];
 
 /**
- * Coordenadas adaptadas para o viewBox do seu SVG real:
+ * Coordenadas ajustadas para:
  * viewBox="0 0 537.59 533.82"
  */
 const statePositions: Record<string, { x: number; y: number }> = {
@@ -205,7 +205,7 @@ export const BrazilMap = () => {
             </div>
           </motion.div>
 
-          {/* MAPA REAL (imagem) + MARKERS (SVG por cima) */}
+          {/* MAPA REAL + MARKERS */}
           <motion.div
             className="order-1 lg:order-2"
             initial={{ opacity: 0, x: 50 }}
@@ -214,7 +214,7 @@ export const BrazilMap = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             <div className="relative max-w-lg mx-auto">
-              {/* 1) Imagem do mapa real (o arquivo precisa estar em public/assets/img/brasil_regioes.svg) */}
+              {/* Imagem do mapa real */}
               <img
                 src="/assets/img/brasil_regioes.svg"
                 alt="Mapa do Brasil"
@@ -224,7 +224,7 @@ export const BrazilMap = () => {
                 }}
               />
 
-              {/* 2) Overlay para markers/tooltip (mesmo viewBox do SVG real) */}
+              {/* Overlay SVG para markers */}
               <svg
                 viewBox="0 0 537.59 533.82"
                 className="absolute inset-0 w-full h-full"
@@ -257,27 +257,27 @@ export const BrazilMap = () => {
                       onMouseLeave={() => setHoveredState(null)}
                       style={{ cursor: "pointer", pointerEvents: "auto" }}
                     >
-                      {/* Pulse ring (DEDEDE) */}
+                      {/* Pulse ring */}
                       {isHovered && (
                         <motion.circle
                           cx={pos.x}
                           cy={pos.y}
-                          r="20"
+                          r="24"
                           fill="none"
                           stroke={MARKER}
                           strokeWidth="2"
                           initial={{ scale: 0.5, opacity: 1 }}
-                          animate={{ scale: 1.5, opacity: 0 }}
+                          animate={{ scale: 1.6, opacity: 0 }}
                           transition={{ duration: 1, repeat: Infinity }}
                         />
                       )}
 
-                      {/* Marker (DEDEDE) */}
+                      {/* Marker */}
                       <circle
                         cx={pos.x}
                         cy={pos.y}
-                        r={isHovered ? "14" : "10"}
-                        fill={isHovered ? MARKER : "rgba(222,222,222,0.75)"}
+                        r={isHovered ? "16" : "12"}
+                        fill={MARKER}
                         stroke="white"
                         strokeWidth="2"
                         filter={isHovered ? "url(#glowMarker)" : ""}
@@ -288,7 +288,7 @@ export const BrazilMap = () => {
                         x={pos.x}
                         y={pos.y + 4}
                         textAnchor="middle"
-                        fontSize={isHovered ? "9" : "7"}
+                        fontSize={isHovered ? "9" : "8"}
                         fill="white"
                         fontWeight="bold"
                         className="pointer-events-none"
@@ -345,7 +345,7 @@ export const BrazilMap = () => {
           </motion.div>
         </div>
 
-        {/* Stats below */}
+        {/* Stats */}
         <motion.div
           className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 40 }}
