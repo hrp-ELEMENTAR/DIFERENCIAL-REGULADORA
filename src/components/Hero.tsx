@@ -188,7 +188,7 @@ export const Hero = () => {
             <span className="text-sm text-muted-foreground">Equipe especializada</span>
             <span className="hidden md:block w-px h-4 bg-border" />
             <span className="text-sm text-muted-foreground flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <span className="w-2 h-2 rounded-full animate-pulse bg-destructive" />
               Suporte 24 horas
             </span>
           </div>

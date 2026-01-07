@@ -40,7 +40,7 @@ export const HowItWorks = () => {
       }} transition={{
         duration: 0.6
       }}>
-          <motion.span className="pill mb-6" initial={{
+          <motion.span initial={{
           opacity: 0,
           scale: 0.9
         }} whileInView={{
@@ -50,7 +50,7 @@ export const HowItWorks = () => {
           once: true
         }} transition={{
           delay: 0.2
-        }}> COMO FUNCIONA</motion.span>
+        }} className="pill mb-6 text-cyan-600"> COMO FUNCIONA</motion.span>
           <motion.h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight" initial={{
           opacity: 0,
           y: 20

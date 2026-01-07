@@ -51,7 +51,7 @@ export const Services = () => {
       }} transition={{
         duration: 0.6
       }}>
-          <motion.span className="pill mb-6" initial={{
+          <motion.span initial={{
           opacity: 0,
           scale: 0.9
         }} whileInView={{
@@ -61,7 +61,7 @@ export const Services = () => {
           once: true
         }} transition={{
           delay: 0.2
-        }}> NOSSOS SERVIÇOS</motion.span>
+        }} className="pill mb-6 text-cyan-600"> NOSSOS SERVIÇOS</motion.span>
           <motion.h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight" initial={{
           opacity: 0,
           y: 20
@@ -110,14 +110,14 @@ export const Services = () => {
           scale: 1.02
         }}>
               <div className="flex items-start justify-between mb-4">
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-all group-hover:scale-110">
-                  <service.icon className="h-7 w-7 text-primary" />
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center transition-all group-hover:scale-110 text-[#dedede] bg-cyan-600">
+                  <service.icon className="h-7 w-7 text-[#dedede]" />
                 </div>
                 
               </div>
               <h3 className="text-xl md:text-2xl font-bold mb-3">{service.title}</h3>
               <p className="text-muted-foreground mb-5 leading-relaxed">{service.description}</p>
-              <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary bg-primary/10 px-4 py-2 rounded-full group-hover:bg-primary group-hover:text-primary-foreground transition-all">
+              <span className="inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-full transition-all bg-cyan-600 text-[#dedede]">
                 ✓ {service.highlight}
               </span>
             </motion.div>)}

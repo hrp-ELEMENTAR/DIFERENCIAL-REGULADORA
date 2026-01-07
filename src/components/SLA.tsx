@@ -44,7 +44,7 @@ export const SLA = () => {
         }} transition={{
           delay: 0.2
         }}>
-            <motion.span className="pill mb-6" initial={{
+            <motion.span initial={{
             opacity: 0,
             scale: 0.9
           }} whileInView={{
@@ -54,7 +54,7 @@ export const SLA = () => {
             once: true
           }} transition={{
             delay: 0.3
-          }}> SLA GARANTIDO</motion.span>
+          }} className="pill mb-6 text-cyan-600"> SLA GARANTIDO</motion.span>
             <motion.h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight" initial={{
             opacity: 0,
             y: 20
@@ -103,7 +103,7 @@ export const SLA = () => {
             scale: 1.02
           }}>
                 <div className="flex items-center justify-center gap-3 mb-6">
-                  <item.icon className="h-12 w-12 text-primary" />
+                  <item.icon className="h-12 w-12 text-cyan-600" />
                   
                 </div>
                 <div className="stat-number text-4xl md:text-5xl mb-4">{item.time}</div>

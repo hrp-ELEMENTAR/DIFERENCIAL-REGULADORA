@@ -41,15 +41,15 @@ export const Footer = () => {
             <h4 className="font-bold text-foreground">Contato</h4>
             <div className="flex flex-col gap-3 text-sm text-muted-foreground">
               <a href="tel:+5545999981551" className="flex items-center gap-2 hover:text-primary transition-colors">
-                <Phone className="w-4 h-4" />
+                <Phone className="w-4 h-4 text-cyan-600" />
                 (45) 99998-1551
               </a>
               <a href="mailto:contato@diferencialsinistros.com.br" className="flex items-center gap-2 hover:text-primary transition-colors">
-                <Mail className="w-4 h-4" />
+                <Mail className="w-4 h-4 text-cyan-600" />
                 contato@diferencialsinistros.com.br
               </a>
               <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
+                <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-cyan-600" />
                 <span>Atuação em todo território nacional.</span>
               </div>
             </div>

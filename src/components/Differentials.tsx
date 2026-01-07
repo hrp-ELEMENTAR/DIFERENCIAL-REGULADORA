@@ -46,7 +46,7 @@ export const Differentials = () => {
         }} transition={{
           duration: 0.6
         }}>
-            <motion.span className="pill mb-6" initial={{
+            <motion.span initial={{
             opacity: 0,
             scale: 0.9
           }} whileInView={{
@@ -56,7 +56,7 @@ export const Differentials = () => {
             once: true
           }} transition={{
             delay: 0.2
-          }}> POR QUE NOS ESCOLHER?</motion.span>
+          }} className="pill mb-6 text-cyan-600"> POR QUE NOS ESCOLHER?</motion.span>
             <motion.h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight" initial={{
             opacity: 0,
             y: 20
@@ -100,7 +100,7 @@ export const Differentials = () => {
             scale: 1.02
           }}>
               <div className="flex items-center gap-6 mb-6">
-                <div className="stat-number text-5xl md:text-6xl">10+</div>
+                <div className="stat-number text-5xl md:text-6xl text-cyan-600">10+</div>
                 <div>
                   <div className="font-bold text-xl">Anos de experiência</div>
                   <div className="text-muted-foreground">no setor de transporte 🚛</div>
@@ -144,7 +144,7 @@ export const Differentials = () => {
             scale: 1.03
           }}>
                 <div className="flex items-center justify-between mb-4">
-                  <feature.icon className="h-10 w-10 text-primary group-hover:scale-110 transition-transform" />
+                  <feature.icon className="h-10 w-10 group-hover:scale-110 transition-transform text-cyan-600" />
                   
                 </div>
                 <h3 className="font-bold text-lg md:text-xl mb-2">{feature.title}</h3>
