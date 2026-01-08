@@ -1,33 +1,28 @@
-import { useState, useEffect, useMemo } from "react";
-import { Menu, X, Phone } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Menu, X, Phone, ChevronDown, LogIn } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { useLocation } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 
-const baseLinks = [
-  { id: "servicos", label: "Serviços" },
-  { id: "como-funciona", label: "Como Funciona" },
-  { id: "atuacao", label: "Atuação" },
-  { id: "diferenciais", label: "Diferenciais" },
-  { id: "contato", label: "Contato" },
+const navLinks = [
+  { href: "#servicos", label: "Serviços" },
+  { href: "#como-funciona", label: "Como Funciona" },
+  { href: "#atuacao", label: "Atuação" },
+  { href: "#diferenciais", label: "Diferenciais" },
+  { href: "#contato", label: "Contato" },
 ];
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const location = useLocation();
-  const isHome = location.pathname === "/" || location.pathname === "";
-
-  const navLinks = useMemo(() => {
-    return baseLinks.map((l) => ({
-      href: isHome ? `#${l.id}` : `/#${l.id}`,
-      label: l.label,
-    }));
-  }, [isHome]);
-
-  const topHref = isHome ? "#topo" : "/#topo";
-  const contatoHref = isHome ? "#contato" : "/#contato";
+  // ✅ dropdown do Login abre no hover
+  const [loginOpen, setLoginOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -47,7 +42,7 @@ export const Header = () => {
       <div className="container-custom">
         <nav className="flex items-center justify-between gap-4">
           <a
-            href={topHref}
+            href="#topo"
             className="flex items-center gap-3"
             aria-label="Diferencial Reguladora de Sinistro"
             onClick={() => setIsOpen(false)}
@@ -71,11 +66,41 @@ export const Header = () => {
               </a>
             ))}
 
-            <Button asChild size="sm" className="ml-2">
-              <a
-                href={contatoHref}
-                className="flex items-center gap-2 bg-cyan-600"
+            {/* ✅ LOGIN DROPDOWN (hover) */}
+            <DropdownMenu open={loginOpen} onOpenChange={setLoginOpen}>
+              <div
+                onMouseEnter={() => setLoginOpen(true)}
+                onMouseLeave={() => setLoginOpen(false)}
               >
+                <DropdownMenuTrigger asChild>
+                  <button
+                    className="font-medium text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
+                    aria-label="Login"
+                    type="button"
+                  >
+                    <LogIn className="w-4 h-4" />
+                    Login
+                    <ChevronDown className="w-4 h-4" />
+                  </button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent align="end" className="min-w-[200px]">
+                  <DropdownMenuItem asChild>
+                    <a href="/login/colaborador">Colaborador</a>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <a href="/login/cliente">Cliente</a>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <a href="/login/regulador">Regulador</a>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </div>
+            </DropdownMenu>
+
+            {/* Botão Fale Conosco */}
+            <Button asChild size="sm" className="ml-2">
+              <a href="#contato" className="flex items-center gap-2 bg-cyan-600">
                 <Phone className="w-4 h-4" />
                 Fale Conosco
               </a>
@@ -113,9 +138,39 @@ export const Header = () => {
                   </a>
                 ))}
 
+                {/* ✅ Login no mobile (lista simples) */}
+                <div className="pt-2 border-t border-border/10">
+                  <div className="text-sm font-bold text-foreground mb-2">
+                    Login
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <a
+                      href="/login/colaborador"
+                      className="text-lg text-muted-foreground hover:text-foreground transition-colors py-2"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Colaborador
+                    </a>
+                    <a
+                      href="/login/cliente"
+                      className="text-lg text-muted-foreground hover:text-foreground transition-colors py-2"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Cliente
+                    </a>
+                    <a
+                      href="/login/regulador"
+                      className="text-lg text-muted-foreground hover:text-foreground transition-colors py-2"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Regulador
+                    </a>
+                  </div>
+                </div>
+
                 <Button asChild className="w-full mt-4">
                   <a
-                    href={contatoHref}
+                    href="#contato"
                     onClick={() => setIsOpen(false)}
                     className="flex items-center justify-center gap-2"
                   >
