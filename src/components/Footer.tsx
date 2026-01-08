@@ -24,7 +24,7 @@ export const Footer = () => {
 
           {/* Links */}
           <div className="space-y-4">
-            <h4 className="font-bold text-foreground">Navegação</h4>
+            <h4 className="font-bold text-foreground min-h-[24px]">Navegação</h4>
             <div className="flex flex-col gap-3">
               <a
                 href="#servicos"
