@@ -10,7 +10,7 @@ import {
   Users,
   Truck,
 } from "lucide-react";
-import logoBg from "@/assets/logo-bg.png";
+import logoSymbol from "@/assets/logo-symbol.png";
 
 const WHATSAPP_NUMBER = "5545999981551";
 const WHATSAPP_TEXT =
@@ -41,11 +41,11 @@ export const Hero = () => {
     >
       {/* Background logo watermark */}
       <div
-        className="absolute inset-0 opacity-[0.02] pointer-events-none"
+        className="absolute inset-0 opacity-[0.12] pointer-events-none"
         style={{
-          backgroundImage: `url(${logoBg})`,
-          backgroundSize: "800px",
-          backgroundPosition: "right center",
+          backgroundImage: `url(${logoSymbol})`,
+          backgroundSize: "700px",
+          backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
         }}
       />
