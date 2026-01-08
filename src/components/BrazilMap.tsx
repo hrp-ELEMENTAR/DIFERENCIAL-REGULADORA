@@ -135,7 +135,7 @@ export const BrazilMap = () => {
     <section className="py-20 md:py-32 relative overflow-hidden" id="atuacao">
       {/* Background logo */}
       <div
-        className="absolute inset-0 opacity-[0.06] pointer-events-none"
+        className="absolute inset-0 opacity-[0.12] pointer-events-none"
         style={{
           backgroundImage: `url(${logoBg})`,
           backgroundSize: "640px",
