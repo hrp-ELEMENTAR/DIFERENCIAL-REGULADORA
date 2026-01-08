@@ -195,7 +195,7 @@ export const BrazilMap = () => {
           >
             <div className="flex items-start gap-4">
               <div
-                className="text-5xl md:text-6xl font-black text-primary/10 leading-none tracking-tighter hidden md:block"
+                className="text-5xl md:text-6xl font-black text-primary/[0.12] leading-none tracking-tighter hidden md:block"
                 style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}
               >
                 ESTADOS
