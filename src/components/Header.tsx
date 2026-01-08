@@ -2,27 +2,29 @@ import { useState, useEffect, useMemo } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { useLocation } from "react-router-dom";
+
+const baseLinks = [
+  { id: "servicos", label: "Serviços" },
+  { id: "como-funciona", label: "Como Funciona" },
+  { id: "atuacao", label: "Atuação" },
+  { id: "diferenciais", label: "Diferenciais" },
+  { id: "contato", label: "Contato" },
+];
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Detecta a rota atual (sem depender de react-router hooks)
-  const isHome = useMemo(() => {
-    if (typeof window === "undefined") return true;
-    return window.location.pathname === "/" || window.location.pathname === "";
-  }, []);
+  const location = useLocation();
+  const isHome = location.pathname === "/" || location.pathname === "";
 
-  const navLinks = useMemo(
-    () => [
-      { href: isHome ? "#servicos" : "/#servicos", label: "Serviços" },
-      { href: isHome ? "#como-funciona" : "/#como-funciona", label: "Como Funciona" },
-      { href: isHome ? "#atuacao" : "/#atuacao", label: "Atuação" },
-      { href: isHome ? "#diferenciais" : "/#diferenciais", label: "Diferenciais" },
-      { href: isHome ? "#contato" : "/#contato", label: "Contato" },
-    ],
-    [isHome]
-  );
+  const navLinks = useMemo(() => {
+    return baseLinks.map((l) => ({
+      href: isHome ? `#${l.id}` : `/#${l.id}`,
+      label: l.label,
+    }));
+  }, [isHome]);
 
   const topHref = isHome ? "#topo" : "/#topo";
   const contatoHref = isHome ? "#contato" : "/#contato";
@@ -70,7 +72,10 @@ export const Header = () => {
             ))}
 
             <Button asChild size="sm" className="ml-2">
-              <a href={contatoHref} className="flex items-center gap-2 bg-cyan-600">
+              <a
+                href={contatoHref}
+                className="flex items-center gap-2 bg-cyan-600"
+              >
                 <Phone className="w-4 h-4" />
                 Fale Conosco
               </a>
