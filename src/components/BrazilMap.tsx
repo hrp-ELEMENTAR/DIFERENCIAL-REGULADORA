@@ -1,6 +1,5 @@
 import { motion, animate, useInView, useMotionValue } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
-import logoBg from "@/assets/logo-bg.png";
 
 const BRAND = "#068fa1";
 const MARKER = "#068fa1";
@@ -133,16 +132,6 @@ export const BrazilMap = () => {
 
   return (
     <section className="py-20 md:py-32 relative overflow-hidden" id="atuacao">
-      {/* Background logo (menos apagada) */}
-      <div
-        className="absolute inset-0 opacity-[0.08] pointer-events-none"
-        style={{
-          backgroundImage: `url(${logoBg})`,
-          backgroundSize: "640px",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      />
 
       <div className="container-custom relative z-10">
         <motion.div
