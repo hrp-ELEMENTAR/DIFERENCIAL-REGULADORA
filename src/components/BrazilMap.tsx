@@ -132,6 +132,9 @@ export const BrazilMap = () => {
   const formatInt = useMemo(() => (n: number) => nf.format(Math.round(n)), [nf]);
   const formatPct = useMemo(() => (n: number) => `${Math.round(n)}%`, []);
 
+  // ✅ caminho correto para funcionar no GitHub Pages (public/brasil_regioes.svg)
+  const mapSrc = `${import.meta.env.BASE_URL}brasil_regioes.svg`;
+
   return (
     <section className="py-20 md:py-32 relative overflow-hidden" id="atuacao">
       {/* Background logo */}
@@ -268,7 +271,7 @@ export const BrazilMap = () => {
           >
             <div className="relative max-w-lg mx-auto">
               <img
-                src="/assets/img/brasil_regioes.svg"
+                src={mapSrc}
                 alt="Mapa do Brasil"
                 className="w-full h-auto"
                 style={{
@@ -299,11 +302,11 @@ export const BrazilMap = () => {
 
                   const isHovered = hoveredState === state.id;
 
-                  // ✅ parâmetros do pulso: sempre ligado
-                  const dur = isHovered ? "1.1s" : "1.6s";
-                  const rFrom = isHovered ? "18" : "18";
-                  const rTo = isHovered ? "44" : "38";
-                  const opFrom = isHovered ? "0.85" : "0.45";
+                  // ✅ anel sempre ligado (e mais forte no hover)
+                  const pulseDuration = isHovered ? 1.1 : 1.6;
+                  const rFrom = 18;
+                  const rTo = isHovered ? 44 : 38;
+                  const opFrom = isHovered ? 0.85 : 0.45;
 
                   return (
                     <motion.g
@@ -319,28 +322,26 @@ export const BrazilMap = () => {
                       onMouseLeave={() => setHoveredState(null)}
                       style={{ cursor: "pointer", pointerEvents: "auto" }}
                     >
-                      {/* ✅ ANEL PULSANDO SEMPRE (SMIL) */}
-                      <circle
+                      {/* ✅ ANEL PULSANDO SEMPRE (Framer Motion) */}
+                      <motion.circle
                         cx={pos.x}
                         cy={pos.y}
-                        r={18}
                         fill="none"
                         stroke={MARKER}
                         strokeWidth={isHovered ? 2 : 1.6}
-                      >
-                        <animate
-                          attributeName="r"
-                          values={`${rFrom};${rTo}`}
-                          dur={dur}
-                          repeatCount="indefinite"
-                        />
-                        <animate
-                          attributeName="opacity"
-                          values={`${opFrom};0`}
-                          dur={dur}
-                          repeatCount="indefinite"
-                        />
-                      </circle>
+                        initial={{ r: rFrom, opacity: opFrom }}
+                        animate={{
+                          r: [rFrom, rTo],
+                          opacity: [opFrom, 0],
+                        }}
+                        transition={{
+                          duration: pulseDuration,
+                          repeat: Infinity,
+                          repeatType: "loop",
+                          ease: "easeOut",
+                          delay: i * 0.05, // desencontra um pouco os pulsos
+                        }}
+                      />
 
                       {/* círculo principal */}
                       <circle
