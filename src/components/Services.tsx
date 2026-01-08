@@ -74,7 +74,7 @@ export const Services = () => {
           delay: 0.3
         }}>
             Tudo que você precisa em{" "}
-            <span className="gradient-text">um só lugar</span> ✨
+            <span className="gradient-text">um só lugar</span> 
           </motion.h2>
           <motion.p className="text-muted-foreground text-lg md:text-xl" initial={{
           opacity: 0,
