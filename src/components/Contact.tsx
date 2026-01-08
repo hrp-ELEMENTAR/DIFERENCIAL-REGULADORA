@@ -146,11 +146,7 @@ export const Contact = () => {
             delay: 0.5
           }}>
               <Button asChild size="lg" className="w-full h-14 text-base group shadow-lg shadow-primary/20">
-                <a href={getWhatsAppLink()} target="_blank" rel="noopener noreferrer" className="text-[#dedede] bg-cyan-600">
-                  <MessageCircle className="mr-2 h-5 w-5" />
-                  Chamar no WhatsApp 💬
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </a>
+                
               </Button>
             </motion.div>
           </motion.div>
