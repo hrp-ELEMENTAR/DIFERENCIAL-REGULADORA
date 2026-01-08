@@ -88,7 +88,7 @@ function CountUp({
   to,
   start,
   format,
-  duration = 1.8, // ✅ MAIS DEVAGAR
+  duration = 1.8,
   className,
 }: {
   to: number;
@@ -106,7 +106,6 @@ function CountUp({
   }, [mv, format]);
 
   useEffect(() => {
-    // ✅ quando sair de tela, zera pra quando voltar contar de novo
     if (!start) {
       mv.set(0);
       return;
@@ -122,7 +121,6 @@ function CountUp({
 export const BrazilMap = () => {
   const [hoveredState, setHoveredState] = useState<string | null>(null);
 
-  // ✅ re-entra na tela para animar de novo
   const statsRef = useRef<HTMLDivElement | null>(null);
   const statsInView = useInView(statsRef, {
     once: false,
@@ -301,12 +299,11 @@ export const BrazilMap = () => {
 
                   const isHovered = hoveredState === state.id;
 
-                  // ✅ efeito (anel) sempre ligado
-                  // hover só deixa mais “forte” + mostra tooltip
-                  const basePulseOpacity = isHovered ? 0.9 : 0.38;
-                  const pulseScaleMax = isHovered ? 1.65 : 1.45;
-                  const pulseDuration = isHovered ? 1.0 : 1.6;
-                  const strokeW = isHovered ? 2 : 1.6;
+                  // ✅ parâmetros do pulso: sempre ligado
+                  const dur = isHovered ? "1.1s" : "1.6s";
+                  const rFrom = isHovered ? "18" : "18";
+                  const rTo = isHovered ? "44" : "38";
+                  const opFrom = isHovered ? "0.85" : "0.45";
 
                   return (
                     <motion.g
@@ -322,33 +319,37 @@ export const BrazilMap = () => {
                       onMouseLeave={() => setHoveredState(null)}
                       style={{ cursor: "pointer", pointerEvents: "auto" }}
                     >
-                      {/* ✅ ANEL PULSANDO SEMPRE */}
-                      <motion.circle
-                        cx={pos.x}
-                        cy={pos.y}
-                        r="26"
-                        fill="none"
-                        stroke={MARKER}
-                        strokeWidth={strokeW}
-                        animate={{
-                          scale: [0.6, pulseScaleMax],
-                          opacity: [basePulseOpacity, 0],
-                        }}
-                        transition={{
-                          duration: pulseDuration,
-                          repeat: Infinity,
-                          ease: "easeOut",
-                        }}
-                      />
-
-                      {/* círculo principal (pode continuar mudando no hover) */}
+                      {/* ✅ ANEL PULSANDO SEMPRE (SMIL) */}
                       <circle
                         cx={pos.x}
                         cy={pos.y}
-                        r={isHovered ? "16" : "13"}
+                        r={18}
+                        fill="none"
+                        stroke={MARKER}
+                        strokeWidth={isHovered ? 2 : 1.6}
+                      >
+                        <animate
+                          attributeName="r"
+                          values={`${rFrom};${rTo}`}
+                          dur={dur}
+                          repeatCount="indefinite"
+                        />
+                        <animate
+                          attributeName="opacity"
+                          values={`${opFrom};0`}
+                          dur={dur}
+                          repeatCount="indefinite"
+                        />
+                      </circle>
+
+                      {/* círculo principal */}
+                      <circle
+                        cx={pos.x}
+                        cy={pos.y}
+                        r={isHovered ? 16 : 13}
                         fill="rgba(6,143,161,0.95)"
                         stroke="rgba(255,255,255,0.85)"
-                        strokeWidth="2.2"
+                        strokeWidth={2.2}
                         filter={isHovered ? "url(#glowMarker)" : ""}
                       />
 
@@ -356,7 +357,7 @@ export const BrazilMap = () => {
                         x={pos.x}
                         y={pos.y + 4}
                         textAnchor="middle"
-                        fontSize={isHovered ? "9" : "8"}
+                        fontSize={isHovered ? 9 : 8}
                         fill="white"
                         fontWeight="bold"
                         className="pointer-events-none"
@@ -370,20 +371,20 @@ export const BrazilMap = () => {
                           <rect
                             x={pos.x - 58}
                             y={pos.y - 50}
-                            width="116"
-                            height="28"
-                            rx="7"
+                            width={116}
+                            height={28}
+                            rx={7}
                             fill="rgba(0,0,0,0.68)"
                             stroke={MARKER}
-                            strokeWidth="1"
+                            strokeWidth={1}
                           />
                           <text
                             x={pos.x}
                             y={pos.y - 31}
                             textAnchor="middle"
-                            fontSize="10"
+                            fontSize={10}
                             fill="white"
-                            fontWeight="500"
+                            fontWeight={500}
                           >
                             ✓ {state.name}
                           </text>
@@ -433,10 +434,7 @@ export const BrazilMap = () => {
           >
             <div
               className="text-3xl md:text-4xl font-black tracking-tight"
-              style={{
-                color: BRAND,
-                textShadow: "0 10px 30px rgba(6,143,161,0.18)",
-              }}
+              style={{ color: BRAND, textShadow: "0 10px 30px rgba(6,143,161,0.18)" }}
             >
               <CountUp to={27} start={statsInView} format={formatInt} duration={1.8} />
             </div>
@@ -459,10 +457,7 @@ export const BrazilMap = () => {
           >
             <div
               className="text-3xl md:text-4xl font-black tracking-tight"
-              style={{
-                color: BRAND,
-                textShadow: "0 10px 30px rgba(6,143,161,0.18)",
-              }}
+              style={{ color: BRAND, textShadow: "0 10px 30px rgba(6,143,161,0.18)" }}
             >
               <CountUp to={5570} start={statsInView} format={formatInt} duration={2.2} />
             </div>
@@ -485,10 +480,7 @@ export const BrazilMap = () => {
           >
             <motion.div
               className="text-3xl md:text-4xl font-black tracking-tight"
-              style={{
-                color: BRAND,
-                textShadow: "0 10px 30px rgba(6,143,161,0.18)",
-              }}
+              style={{ color: BRAND, textShadow: "0 10px 30px rgba(6,143,161,0.18)" }}
               initial={{ opacity: 0, scale: 0.92 }}
               animate={statsInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.92 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
@@ -514,10 +506,7 @@ export const BrazilMap = () => {
           >
             <div
               className="text-3xl md:text-4xl font-black tracking-tight"
-              style={{
-                color: BRAND,
-                textShadow: "0 10px 30px rgba(6,143,161,0.18)",
-              }}
+              style={{ color: BRAND, textShadow: "0 10px 30px rgba(6,143,161,0.18)" }}
             >
               <CountUp to={100} start={statsInView} format={formatPct} duration={1.8} />
             </div>
