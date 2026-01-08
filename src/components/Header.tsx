@@ -1,13 +1,7 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Phone, ChevronDown, LogIn } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
 
 const navLinks = [
   { href: "#servicos", label: "Serviços" },
@@ -20,9 +14,6 @@ const navLinks = [
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-
-  // ✅ dropdown do Login abre no hover
-  const [loginOpen, setLoginOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -66,37 +57,15 @@ export const Header = () => {
               </a>
             ))}
 
-            {/* ✅ LOGIN DROPDOWN (hover) */}
-            <DropdownMenu open={loginOpen} onOpenChange={setLoginOpen}>
-              <div
-                onMouseEnter={() => setLoginOpen(true)}
-                onMouseLeave={() => setLoginOpen(false)}
+            {/* Botão Login */}
+            <Button asChild size="sm" className="ml-2">
+              <a
+                href="/login"
+                className="font-medium text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                <DropdownMenuTrigger asChild>
-                  <button
-                    className="font-medium text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
-                    aria-label="Login"
-                    type="button"
-                  >
-                    <LogIn className="w-4 h-4" />
-                    Login
-                    <ChevronDown className="w-4 h-4" />
-                  </button>
-                </DropdownMenuTrigger>
-
-                <DropdownMenuContent align="end" className="min-w-[200px]">
-                  <DropdownMenuItem asChild>
-                    <a href="/login/colaborador">Colaborador</a>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <a href="/login/cliente">Cliente</a>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <a href="/login/regulador">Regulador</a>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </div>
-            </DropdownMenu>
+                Login
+              </a>
+            </Button>
 
             {/* Botão Fale Conosco */}
             <Button asChild size="sm" className="ml-2">
@@ -138,37 +107,19 @@ export const Header = () => {
                   </a>
                 ))}
 
-                {/* ✅ Login no mobile (lista simples) */}
-                <div className="pt-2 border-t border-border/10">
-                  <div className="text-sm font-bold text-foreground mb-2">
+                {/* Login no mobile */}
+                <Button asChild className="w-full mt-2">
+                  <a
+                    href="/login"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center justify-center gap-2"
+                  >
                     Login
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <a
-                      href="/login/colaborador"
-                      className="text-lg text-muted-foreground hover:text-foreground transition-colors py-2"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      Colaborador
-                    </a>
-                    <a
-                      href="/login/cliente"
-                      className="text-lg text-muted-foreground hover:text-foreground transition-colors py-2"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      Cliente
-                    </a>
-                    <a
-                      href="/login/regulador"
-                      className="text-lg text-muted-foreground hover:text-foreground transition-colors py-2"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      Regulador
-                    </a>
-                  </div>
-                </div>
+                  </a>
+                </Button>
 
-                <Button asChild className="w-full mt-4">
+                {/* Fale Conosco no mobile */}
+                <Button asChild className="w-full mt-2">
                   <a
                     href="#contato"
                     onClick={() => setIsOpen(false)}
