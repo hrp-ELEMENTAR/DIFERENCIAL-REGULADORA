@@ -88,7 +88,7 @@ function CountUp({
   to,
   start,
   format,
-  duration = 0.85,
+  duration = 1.8, // ✅ MAIS DEVAGAR (antes 0.85)
   className,
 }: {
   to: number;
@@ -106,8 +106,13 @@ function CountUp({
   }, [mv, format]);
 
   useEffect(() => {
-    if (!start) return;
-    // start imediatamente quando a grid entra na tela
+    // ✅ quando sair de tela, zera pra quando voltar contar de novo
+    if (!start) {
+      mv.set(0);
+      return;
+    }
+
+    // ✅ quando entrar, anima
     const controls = animate(mv, to, { duration, ease: "easeOut" });
     return () => controls.stop();
   }, [start, mv, to, duration]);
@@ -118,11 +123,10 @@ function CountUp({
 export const BrazilMap = () => {
   const [hoveredState, setHoveredState] = useState<string | null>(null);
 
-  // dispara as animações quando a GRID de stats entra na tela
+  // ✅ agora precisa re-entrar na tela para animar de novo
   const statsRef = useRef<HTMLDivElement | null>(null);
   const statsInView = useInView(statsRef, {
-    once: true,
-    // começa mais cedo (não precisa “passar e voltar”)
+    once: false, // ✅ antes estava true
     margin: "0px 0px -20% 0px",
     amount: 0.2,
   });
@@ -394,7 +398,7 @@ export const BrazilMap = () => {
           </motion.div>
         </div>
 
-        {/* STATS (cards forçados + count-up rápido) */}
+        {/* STATS */}
         <div
           ref={statsRef}
           className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 max-w-4xl mx-auto"
@@ -417,7 +421,7 @@ export const BrazilMap = () => {
               className="text-3xl md:text-4xl font-black tracking-tight"
               style={{ color: BRAND, textShadow: "0 10px 30px rgba(6,143,161,0.18)" }}
             >
-              <CountUp to={27} start={statsInView} format={formatInt} />
+              <CountUp to={27} start={statsInView} format={formatInt} duration={1.8} />
             </div>
             <div className="text-sm text-muted-foreground mt-2">Estados cobertos</div>
           </motion.div>
@@ -440,7 +444,7 @@ export const BrazilMap = () => {
               className="text-3xl md:text-4xl font-black tracking-tight"
               style={{ color: BRAND, textShadow: "0 10px 30px rgba(6,143,161,0.18)" }}
             >
-              <CountUp to={5570} start={statsInView} format={formatInt} />
+              <CountUp to={5570} start={statsInView} format={formatInt} duration={2.2} />
             </div>
             <div className="text-sm text-muted-foreground mt-2">Municípios atendidos</div>
           </motion.div>
@@ -463,7 +467,7 @@ export const BrazilMap = () => {
               className="text-3xl md:text-4xl font-black tracking-tight"
               style={{ color: BRAND, textShadow: "0 10px 30px rgba(6,143,161,0.18)" }}
               initial={{ opacity: 0, scale: 0.92 }}
-              animate={statsInView ? { opacity: 1, scale: 1 } : {}}
+              animate={statsInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.92 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
             >
               24/7
@@ -489,7 +493,7 @@ export const BrazilMap = () => {
               className="text-3xl md:text-4xl font-black tracking-tight"
               style={{ color: BRAND, textShadow: "0 10px 30px rgba(6,143,161,0.18)" }}
             >
-              <CountUp to={100} start={statsInView} format={formatPct} />
+              <CountUp to={100} start={statsInView} format={formatPct} duration={1.8} />
             </div>
             <div className="text-sm text-muted-foreground mt-2">Território nacional</div>
           </motion.div>
