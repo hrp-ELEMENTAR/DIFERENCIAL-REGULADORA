@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, LogIn, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button";
 
 const navLinks = [
   { href: "#servicos", label: "Serviços" },
@@ -57,23 +56,24 @@ export const Header = () => {
               </a>
             ))}
 
-            {/* Botão Login */}
-            <Button asChild size="sm" className="ml-2">
-              <a
-                href="/login"
-                className="font-medium text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Login
-              </a>
-            </Button>
+            {/* Login com ícones, sem dropdown */}
+            <a
+              href="/login"
+              className="font-medium text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+            >
+              <LogIn className="w-4 h-4" />
+              Login
+              <ChevronDown className="w-4 h-4" />
+            </a>
 
             {/* Botão Fale Conosco */}
-            <Button asChild size="sm" className="ml-2">
-              <a href="#contato" className="flex items-center gap-2 bg-cyan-600">
-                <Phone className="w-4 h-4" />
-                Fale Conosco
-              </a>
-            </Button>
+            <a
+              href="#contato"
+              className="flex items-center gap-2 bg-cyan-600 text-white font-medium text-sm px-3 py-2 rounded-md hover:bg-cyan-700 transition-colors"
+            >
+              <Phone className="w-4 h-4" />
+              Fale Conosco
+            </a>
           </div>
 
           {/* Mobile menu button */}
@@ -107,28 +107,26 @@ export const Header = () => {
                   </a>
                 ))}
 
-                {/* Login no mobile */}
-                <Button asChild className="w-full mt-2">
-                  <a
-                    href="/login"
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-center gap-2"
-                  >
-                    Login
-                  </a>
-                </Button>
+                {/* Login no mobile com ícone */}
+                <a
+                  href="/login"
+                  className="font-medium text-lg text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 py-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <LogIn className="w-5 h-5" />
+                  Login
+                  <ChevronDown className="w-5 h-5" />
+                </a>
 
                 {/* Fale Conosco no mobile */}
-                <Button asChild className="w-full mt-2">
-                  <a
-                    href="#contato"
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-center gap-2"
-                  >
-                    <Phone className="w-4 h-4" />
-                    Fale Conosco
-                  </a>
-                </Button>
+                <a
+                  href="#contato"
+                  className="flex items-center gap-2 bg-cyan-600 text-white font-medium text-lg px-3 py-2 rounded-md hover:bg-cyan-700 transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Phone className="w-4 h-4" />
+                  Fale Conosco
+                </a>
               </div>
             </motion.div>
           )}
