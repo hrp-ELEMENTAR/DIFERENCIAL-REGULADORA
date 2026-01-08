@@ -1,20 +1,31 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
-
-const navLinks = [
-  { href: "#servicos", label: "Serviços" },
-  { href: "#como-funciona", label: "Como Funciona" },
-  { href: "#atuacao", label: "Atuação" },
-  { href: "#diferenciais", label: "Diferenciais" },
-  { href: "#contato", label: "Contato" },
-];
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  // Detecta a rota atual (sem depender de react-router hooks)
+  const isHome = useMemo(() => {
+    if (typeof window === "undefined") return true;
+    return window.location.pathname === "/" || window.location.pathname === "";
+  }, []);
+
+  const navLinks = useMemo(
+    () => [
+      { href: isHome ? "#servicos" : "/#servicos", label: "Serviços" },
+      { href: isHome ? "#como-funciona" : "/#como-funciona", label: "Como Funciona" },
+      { href: isHome ? "#atuacao" : "/#atuacao", label: "Atuação" },
+      { href: isHome ? "#diferenciais" : "/#diferenciais", label: "Diferenciais" },
+      { href: isHome ? "#contato" : "/#contato", label: "Contato" },
+    ],
+    [isHome]
+  );
+
+  const topHref = isHome ? "#topo" : "/#topo";
+  const contatoHref = isHome ? "#contato" : "/#contato";
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -34,9 +45,10 @@ export const Header = () => {
       <div className="container-custom">
         <nav className="flex items-center justify-between gap-4">
           <a
-            href="#topo"
+            href={topHref}
             className="flex items-center gap-3"
             aria-label="Diferencial Reguladora de Sinistro"
+            onClick={() => setIsOpen(false)}
           >
             <img
               alt="Diferencial Reguladora de Sinistro"
@@ -58,7 +70,7 @@ export const Header = () => {
             ))}
 
             <Button asChild size="sm" className="ml-2">
-              <a href="#contato" className="flex items-center gap-2 bg-cyan-600">
+              <a href={contatoHref} className="flex items-center gap-2 bg-cyan-600">
                 <Phone className="w-4 h-4" />
                 Fale Conosco
               </a>
@@ -95,9 +107,10 @@ export const Header = () => {
                     {link.label}
                   </a>
                 ))}
+
                 <Button asChild className="w-full mt-4">
                   <a
-                    href="#contato"
+                    href={contatoHref}
                     onClick={() => setIsOpen(false)}
                     className="flex items-center justify-center gap-2"
                   >
