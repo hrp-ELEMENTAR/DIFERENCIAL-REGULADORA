@@ -13,135 +13,197 @@ export default function PoliticaPrivacidade() {
 
         <div className="prose prose-invert max-w-3xl">
           <p>
-            
-A DIFERENCIAL REGULADORA DE SINISTROS LTDA, pessoa jurídica de direito privado, inscrita no CNPJ nº 57.512.044/0001-18, com sede na Rua Flamboyant, nº 3690, Bairro Recanto Tropical, Cascavel – PR, CEP 85807-315, respeita a sua privacidade e está comprometida com a proteção dos dados pessoais de todos os usuários, clientes, parceiros e colaboradores, nos termos da Lei Geral de Proteção de Dados Pessoais – LGPD (Lei nº 13.709/2018).
+            A <strong>Diferencial Reguladora de Sinistros LTDA</strong>, pessoa
+            jurídica de direito privado, inscrita no CNPJ nº{" "}
+            <strong>57.512.044/0001-18</strong>, com sede na Rua Flamboyant, nº
+            3690, Bairro Recanto Tropical, Cascavel – PR, CEP 85807-315, respeita
+            a sua privacidade e está comprometida com a proteção dos dados
+            pessoais de todos os usuários, clientes, parceiros e colaboradores,
+            nos termos da Lei Geral de Proteção de Dados Pessoais – LGPD (Lei nº
+            13.709/2018).
+          </p>
 
-Esta Política de Privacidade descreve como coletamos, utilizamos, armazenamos, compartilhamos e protegemos os seus dados pessoais quando você acessa nosso site, utiliza nossos serviços ou interage conosco.
+          <p>
+            Esta Política de Privacidade descreve como coletamos, utilizamos,
+            armazenamos, compartilhamos e protegemos os seus dados pessoais
+            quando você acessa nosso site, utiliza nossos serviços ou interage
+            conosco.
           </p>
 
           <h2>1. Dados pessoais que coletamos</h2>
-          <p>Podemos coletar os seguintes dados pessoais, conforme a interação do titular com nosso site e serviços:
+          <p>
+            Podemos coletar dados pessoais conforme a interação do titular com
+            nosso site e serviços.
+          </p>
 
-a) Dados fornecidos diretamente pelo titular
+          <h3>a) Dados fornecidos diretamente pelo titular</h3>
+          <ul>
+            <li>Nome completo</li>
+            <li>Endereço de e-mail</li>
+            <li>Número de telefone</li>
+            <li>Endereço físico</li>
+            <li>Informações profissionais</li>
+            <li>
+              Dados necessários à prestação dos serviços de regulação de
+              sinistros
+            </li>
+            <li>
+              Informações enviadas por meio de formulários, e-mails, WhatsApp ou
+              outros canais de contato
+            </li>
+          </ul>
 
-Nome completo
+          <h3>b) Dados coletados automaticamente</h3>
+          <ul>
+            <li>Endereço IP</li>
+            <li>Data e hora de acesso</li>
+            <li>Tipo de navegador e dispositivo</li>
+            <li>Páginas visitadas e interações no site</li>
+            <li>Cookies e tecnologias semelhantes</li>
+          </ul>
 
-Endereço de e-mail
-
-Número de telefone
-
-Endereço físico
-
-Informações profissionais
-
-Dados necessários à prestação dos serviços de perícia e regulação de sinistros veiculares
-
-Informações enviadas por meio de formulários, e-mails, WhatsApp ou outros canais de contato
-
-b) Dados coletados automaticamente
-
-Endereço IP
-
-Data e hora de acesso
-
-Tipo de navegador e dispositivo
-
-Páginas visitadas e interações no site
-
-Cookies e tecnologias semelhantes
-
-c) Dados sensíveis
-
-A Diferencial Perícias Veiculares LTDA não realiza o tratamento de dados sensíveis, salvo quando estritamente necessário para cumprimento de obrigação legal ou execução de contrato, sempre nos limites da LGPD.</p>
+          <h3>c) Dados sensíveis</h3>
+          <p>
+            A <strong>Diferencial Reguladora de Sinistros LTDA</strong> não
+            realiza o tratamento de dados sensíveis, salvo quando estritamente
+            necessário para cumprimento de obrigação legal ou execução de
+            contrato, sempre nos limites da LGPD.
+          </p>
 
           <h2>2. Finalidades do tratamento dos dados</h2>
-          <p>Os dados pessoais coletados poderão ser utilizados para:
-
-Prestar e administrar nossos serviços
-
-Executar contratos e procedimentos preliminares
-
-Atender solicitações, dúvidas e contatos
-
-Cumprir obrigações legais, regulatórias e contratuais
-
-Garantir a segurança do site e das informações
-
-Melhorar a experiência do usuário
-
-Realizar comunicações institucionais e comerciais, quando autorizado
-
-Prevenir fraudes e incidentes de segurança</p>
+          <p>Os dados pessoais coletados poderão ser utilizados para:</p>
+          <ul>
+            <li>Prestar e administrar nossos serviços</li>
+            <li>Executar contratos e procedimentos preliminares</li>
+            <li>Atender solicitações, dúvidas e contatos</li>
+            <li>Cumprir obrigações legais, regulatórias e contratuais</li>
+            <li>Garantir a segurança do site e das informações</li>
+            <li>Melhorar a experiência do usuário</li>
+            <li>
+              Realizar comunicações institucionais e comerciais, quando
+              autorizado
+            </li>
+            <li>Prevenir fraudes e incidentes de segurança</li>
+          </ul>
 
           <h2>3. Base legal para o tratamento</h2>
-          <p>O tratamento dos dados pessoais ocorre com fundamento nas seguintes bases legais previstas na LGPD:
+          <p>
+            O tratamento dos dados pessoais ocorre com fundamento nas seguintes
+            bases legais previstas na LGPD:
+          </p>
+          <ul>
+            <li>Execução de contrato ou de procedimentos preliminares</li>
+            <li>Cumprimento de obrigação legal ou regulatória</li>
+            <li>
+              Legítimo interesse, observados os direitos e liberdades do titular
+            </li>
+            <li>Consentimento do titular, quando aplicável</li>
+          </ul>
 
-Execução de contrato ou de procedimentos preliminares
+          <h2>4. Compartilhamento de dados pessoais</h2>
+          <p>
+            A <strong>Diferencial Reguladora de Sinistros LTDA</strong> não
+            vende, aluga ou comercializa dados pessoais.
+          </p>
+          <p>Os dados poderão ser compartilhados, quando necessário, com:</p>
+          <ul>
+            <li>Prestadores de serviços e parceiros contratados</li>
+            <li>Empresas de tecnologia, hospedagem e armazenamento de dados</li>
+            <li>Autoridades públicas, mediante obrigação legal</li>
+            <li>Escritórios jurídicos e contábeis</li>
+          </ul>
+          <p>
+            Todos os terceiros envolvidos assumem o compromisso de
+            confidencialidade e proteção dos dados, em conformidade com esta
+            Política e com a LGPD.
+          </p>
 
-Cumprimento de obrigação legal ou regulatória
+          <h2>5. Armazenamento e segurança dos dados</h2>
+          <p>
+            Adotamos medidas técnicas, administrativas e organizacionais
+            adequadas para proteger os dados pessoais contra acessos não
+            autorizados, perda, destruição, alteração ou divulgação indevida.
+          </p>
+          <p>
+            Os dados poderão ser armazenados em servidores próprios ou em
+            ambiente de computação em nuvem, localizados no Brasil ou no
+            exterior, sempre em conformidade com a legislação aplicável.
+          </p>
 
-Legítimo interesse, observados os direitos e liberdades do titular
+          <h2>6. Retenção dos dados</h2>
+          <p>
+            Os dados pessoais serão mantidos apenas pelo período necessário para
+            atender às finalidades para as quais foram coletados, incluindo:
+          </p>
+          <ul>
+            <li>Cumprimento de obrigações legais e regulatórias</li>
+            <li>Execução de contratos</li>
+            <li>
+              Exercício regular de direitos em processos administrativos ou
+              judiciais
+            </li>
+          </ul>
 
-Consentimento do titular, quando aplicável</p>
-                    <h2>4. Compartilhamento de dados pessoais</h2>
-                    <p>OA Diferencial Perícias Veiculares LTDA não vende, aluga ou comercializa dados pessoais.
+          <h2>7. Direitos do titular dos dados</h2>
+          <p>Nos termos da LGPD, o titular tem direito a:</p>
+          <ul>
+            <li>Confirmar a existência de tratamento de dados</li>
+            <li>Acessar seus dados pessoais</li>
+            <li>Corrigir dados incompletos, inexatos ou desatualizados</li>
+            <li>
+              Solicitar anonimização, bloqueio ou eliminação de dados
+              desnecessários
+            </li>
+            <li>Solicitar portabilidade dos dados, quando aplicável</li>
+            <li>Revogar o consentimento, quando aplicável</li>
+            <li>
+              Opor-se a tratamentos realizados com base no legítimo interesse
+            </li>
+          </ul>
 
-Os dados poderão ser compartilhados, quando necessário, com:
+          <h2>8. Como exercer seus direitos</h2>
+          <p>
+            Para exercer seus direitos, o titular deverá entrar em contato pelo
+            e-mail:
+          </p>
+          <p>
+            📧 <strong>contato@diferencialreguladora.com.br</strong>
+            <br />
+            Assunto: <strong>“LGPD – Solicitação do Titular”</strong>
+          </p>
+          <p>
+            Para sua segurança, poderemos solicitar informações adicionais para
+            confirmação de identidade.
+          </p>
 
-Prestadores de serviços e parceiros contratados
+          <h2>9. Cookies e tecnologias semelhantes</h2>
+          <p>
+            Utilizamos cookies e tecnologias semelhantes para melhorar a
+            experiência de navegação. O usuário pode, a qualquer momento,
+            configurar seu navegador para recusar cookies, ciente de que algumas
+            funcionalidades do site poderão ser afetadas.
+          </p>
 
-Empresas de tecnologia, hospedagem e armazenamento de dados
+          <h2>10. Links para sites de terceiros</h2>
+          <p>
+            Nosso site pode conter links para sites externos. A{" "}
+            <strong>Diferencial Reguladora de Sinistros LTDA</strong> não se
+            responsabiliza pelas políticas de privacidade ou práticas adotadas
+            por terceiros.
+          </p>
 
-Autoridades públicas, mediante obrigação legal
+          <h2>11. Alterações nesta Política de Privacidade</h2>
+          <p>
+            Esta Política poderá ser alterada a qualquer tempo, visando à sua
+            constante atualização. A versão mais recente estará sempre
+            disponível em nosso site.
+          </p>
 
-Escritórios jurídicos e contábeis
-
-Todos os terceiros envolvidos assumem o compromisso de confidencialidade e proteção dos dados, em conformidade com esta Política e com a LGPD.
-                        <h2>5. Armazenamento e segurança dos dados</h2>
-                        <p>OA Adotamos medidas técnicas, administrativas e organizacionais adequadas para proteger os dados pessoais contra acessos não autorizados, perda, destruição, alteração ou divulgação indevida.
-
-Os dados poderão ser armazenados em servidores próprios ou em ambiente de computação em nuvem, localizados no Brasil ou no exterior, sempre em conformidade com a legislação aplicável.
-                        <h2>6. Retenção dos dados</h2>
-                        <p>OA Os dados pessoais serão mantidos apenas pelo período necessário para atender às finalidades para as quais foram coletados, incluindo:
-
-Cumprimento de obrigações legais e regulatórias
-
-Execução de contratos
-
-Exercício regular de direitos em processos administrativos ou judiciais
-                         <h2>7. Direitos do titular dos dados</h2>
-                         <p>OA Nos termos da LGPD, o titular tem direito a:
-
-Confirmar a existência de tratamento de dados
-
-Acessar seus dados pessoais
-
-Corrigir dados incompletos, inexatos ou desatualizados
-
-Solicitar anonimização, bloqueio ou eliminação de dados desnecessários
-
-Solicitar portabilidade dos dados
-
-Revogar o consentimento
-
-Opor-se a tratamentos realizados com base no legítimo interesse
-                        <h2>8. Como exercer seus direitos</h2>
-                        <p>OA Para exercer seus direitos, o titular deverá entrar em contato pelo e-mail:
-
-📧 contato@diferencialreguladora.com.br
-
-Assunto: “LGPD – Solicitação do Titular”
-
-Para sua segurança, poderemos solicitar informações adicionais para confirmação de identidade.
-                        <h2>9. Cookies e tecnologias semelhantes</h2>
-                        <p>OA Utilizamos cookies e tecnologias semelhantes para melhorar a experiência de navegação. O usuário pode, a qualquer momento, configurar seu navegador para recusar cookies, ciente de que algumas funcionalidades do site poderão ser afetadas.
-                        <h2>10. Links para sites de terceiros</h2>
-                        <p>OA Nosso site pode conter links para sites externos. A Diferencial Perícias Veiculares LTDA não se responsabiliza pelas políticas de privacidade ou práticas adotadas por terceiros.
-                        <h2>11. Alterações nesta Política de Privacidade</h2>
-                        <p>OA Esta Política poderá ser alterada a qualquer tempo, visando à sua constante atualização. A versão mais recente estará sempre disponível em nosso site.
-                        <h2>12. Foro</h2>
-                        <p>OA Fica eleito o foro da República Federativa do Brasil para dirimir quaisquer questões relativas a esta Política.       
-                            
+          <h2>12. Foro</h2>
+          <p>
+            Fica eleito o foro da República Federativa do Brasil para dirimir
+            quaisquer questões relativas a esta Política.
+          </p>
         </div>
       </main>
 
