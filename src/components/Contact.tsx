@@ -107,7 +107,8 @@ export const Contact = () => {
           delay: 0.2
         }}>
             <div className="glass-card rounded-2xl p-8">
-              <h3 className="font-bold text-2xl mb-8">Fale Conosco </h3>
+              <h3 className="font-bold text-2xl mb-8">Fale Conosco
+Tire suas dúvidas! </h3>
 
               {contactInfo.map((item, i) => <motion.a key={i} href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-xl hover:bg-foreground/5 transition-all group" initial={{
               opacity: 0,

@@ -190,7 +190,7 @@ export const HowItWorks = () => {
               
               
               
-              🚀 INICIAR AGORA
+               INICIAR AGORA
               
               
               
