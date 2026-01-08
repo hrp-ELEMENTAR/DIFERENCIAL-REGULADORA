@@ -64,7 +64,7 @@ export const Footer = () => {
             <h4 className="font-bold text-foreground">Legal</h4>
             <div className="flex flex-col gap-3">
               <a
-                href="#politica-privacidade"
+                href="/politica-privacidade"
                 className="text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 Política Global de Privacidade
