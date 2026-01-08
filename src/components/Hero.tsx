@@ -46,7 +46,7 @@ export const Hero = () => {
           backgroundImage: `url(${logoSymbol})`,
           backgroundSize: "700px",
           // ✅ SUBI A LOGO AQUI (antes era "50% 45%")
-          backgroundPosition: "50% 35%",
+          backgroundPosition: "50% 30%",
           backgroundRepeat: "no-repeat",
         }}
       />
