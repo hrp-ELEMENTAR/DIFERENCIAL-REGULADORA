@@ -3,9 +3,10 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
+
+import Index from "@/pages/Index";
+import NotFound from "@/pages/NotFound";
+import PoliticaPrivacidade from "@/pages/PoliticaPrivacidade";
 
 const queryClient = new QueryClient();
 
@@ -18,10 +19,10 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
 
-          {/* ✅ NOVA ROTA */}
+          {/* ✅ Política de Privacidade */}
           <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
 
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          {/* ✅ Sempre por último */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
