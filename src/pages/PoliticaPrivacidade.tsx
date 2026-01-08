@@ -1,44 +1,51 @@
+import Header from "@/components/Header";
+import { Footer } from "@/components/Footer";
+
 export default function PoliticaPrivacidade() {
   return (
-    <main className="min-h-screen bg-background">
-      <section className="py-16 md:py-24">
-        <div className="container-custom max-w-4xl">
-          <h1 className="text-3xl md:text-5xl font-black mb-6">
-            Política Global de Privacidade
-          </h1>
+    <>
+      <Header />
 
-          <div className="text-muted-foreground text-sm md:text-base leading-relaxed space-y-4">
-            <p>
-              Aqui vai o texto completo da sua Política de Privacidade.
-            </p>
+      <main className="min-h-[70vh] bg-background">
+        <section className="py-16 md:py-24">
+          <div className="container-custom max-w-4xl">
+            <h1 className="text-3xl md:text-5xl font-black mb-6">
+              Política Global de Privacidade
+            </h1>
 
-            <h2 className="text-foreground text-xl font-bold pt-4">
-              1. Dados que coletamos
-            </h2>
-            <p>
-              Descreva quais dados são coletados (ex.: nome, e-mail, telefone, etc).
-            </p>
+            <div className="text-muted-foreground text-sm md:text-base leading-relaxed space-y-4">
+              <p>
+                {/* ✅ Troque esse texto pelo seu */}
+                Aqui vai o texto completo da sua Política de Privacidade.
+              </p>
 
-            <h2 className="text-foreground text-xl font-bold pt-4">
-              2. Como usamos os dados
-            </h2>
-            <p>
-              Explique o motivo do uso (atendimento, contato, prestação do serviço).
-            </p>
+              <h2 className="text-xl md:text-2xl font-bold text-foreground pt-6">
+                1. Coleta de dados
+              </h2>
+              <p>
+                Descreva quais dados são coletados e por quê.
+              </p>
 
-            <h2 className="text-foreground text-xl font-bold pt-4">
-              3. Contato
-            </h2>
-            <p>
-              Para solicitar alteração/remoção de dados, entre em contato:
-              <br />
-              <strong className="text-foreground">
-                contato@diferencialsinistros.com.br
-              </strong>
-            </p>
+              <h2 className="text-xl md:text-2xl font-bold text-foreground pt-6">
+                2. Uso das informações
+              </h2>
+              <p>
+                Explique como as informações serão usadas.
+              </p>
+
+              <h2 className="text-xl md:text-2xl font-bold text-foreground pt-6">
+                3. Contato
+              </h2>
+              <p>
+                Se tiver dúvidas, entre em contato pelo e-mail:
+                <strong className="text-foreground"> contato@diferencialsinistros.com.br</strong>
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+
+      <Footer />
+    </>
   );
 }
