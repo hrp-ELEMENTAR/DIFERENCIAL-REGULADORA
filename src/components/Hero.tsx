@@ -41,11 +41,11 @@ export const Hero = () => {
     >
       {/* Background logo watermark */}
       <div
-        className="absolute inset-0 opacity-[0.12] pointer-events-none"
+        className="absolute inset-0 opacity-[0.12] pointer-events-none flex items-center justify-center"
         style={{
           backgroundImage: `url(${logoSymbol})`,
           backgroundSize: "700px",
-          backgroundPosition: "center",
+          backgroundPosition: "50% 45%",
           backgroundRepeat: "no-repeat",
         }}
       />
