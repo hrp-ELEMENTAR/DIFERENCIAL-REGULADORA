@@ -8,7 +8,7 @@ export const Footer = () => {
     <footer className="border-t border-border/20 bg-card/50">
       <div className="container-custom py-12 md:py-16">
         {/* ✅ agora são 4 colunas */}
-       <div className="grid gap-10 md:gap-8 md:grid-cols-[1.4fr_1fr_1fr_1fr] items-start">
+        <div className="grid gap-10 md:gap-8 md:grid-cols-[1.4fr_1fr_1fr_1fr] items-start">
           {/* Logo e descrição */}
           <div className="space-y-6">
             <img
@@ -23,7 +23,7 @@ export const Footer = () => {
           </div>
 
           {/* Links */}
-          <div className="space-y-4">
+          <div className="space-y-4 md:pl-10">
             <h4 className="font-bold text-foreground min-h-[24px]">Navegação</h4>
             <div className="flex flex-col gap-3">
               <a
