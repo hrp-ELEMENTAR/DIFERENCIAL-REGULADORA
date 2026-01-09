@@ -8,9 +8,13 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
 
-import AreaCliente from "./pages/AreaCliente";
-import AreaRegulador from "./pages/AreaRegulador";
-import Login from "./pages/Login";
+import LoginCliente from "./pages/LoginCliente";
+import LoginRegulador from "./pages/LoginRegulador";
+
+import Cliente from "./pages/Cliente";
+import Regulador from "./pages/Regulador";
+
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -22,16 +26,29 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-
-          {/* páginas */}
           <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
 
-          {/* áreas */}
-          <Route path="/area-cliente" element={<AreaCliente />} />
-          <Route path="/area-regulador" element={<AreaRegulador />} />
+          {/* logins separados */}
+          <Route path="/login/cliente" element={<LoginCliente />} />
+          <Route path="/login/regulador" element={<LoginRegulador />} />
 
-          {/* login por tipo */}
-          <Route path="/login/:tipo" element={<Login />} />
+          {/* áreas protegidas */}
+          <Route
+            path="/cliente"
+            element={
+              <ProtectedRoute role="cliente">
+                <Cliente />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/regulador"
+            element={
+              <ProtectedRoute role="regulador">
+                <Regulador />
+              </ProtectedRoute>
+            }
+          />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
