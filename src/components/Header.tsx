@@ -1,45 +1,39 @@
-import { useEffect, useMemo, useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Menu, X, Phone, LogIn, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-
-const baseNavLinks = [
-  { href: "#servicos", label: "Serviços" },
-  { href: "#como-funciona", label: "Como Funciona" },
-  { href: "#atuacao", label: "Atuação" },
-  { href: "#diferenciais", label: "Diferenciais" },
-  { href: "#contato", label: "Contato" },
-];
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // dropdown hover (desktop)
+  // ✅ controla o dropdown do Login (desktop)
   const [loginOpen, setLoginOpen] = useState(false);
+
+  // ✅ detecta se está na home (pra hashes funcionarem mesmo vindo de /login)
+  const isHome = useMemo(() => {
+    if (typeof window === "undefined") return true;
+    return window.location.pathname === "/" || window.location.pathname === "";
+  }, []);
+
+  const navLinks = useMemo(
+    () => [
+      { href: isHome ? "#servicos" : "/#servicos", label: "Serviços" },
+      { href: isHome ? "#como-funciona" : "/#como-funciona", label: "Como Funciona" },
+      { href: isHome ? "#atuacao" : "/#atuacao", label: "Atuação" },
+      { href: isHome ? "#diferenciais" : "/#diferenciais", label: "Diferenciais" },
+      { href: isHome ? "#contato" : "/#contato", label: "Contato" },
+    ],
+    [isHome]
+  );
+
+  const topoHref = isHome ? "#topo" : "/#topo";
+  const contatoHref = isHome ? "#contato" : "/#contato";
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  // ✅ Detecta se está na Home
-  const isHome = useMemo(() => {
-    if (typeof window === "undefined") return true;
-    return window.location.pathname === "/" || window.location.pathname === "";
-  }, []);
-
-  // ✅ Se não estiver na home, aponta para "/#secao"
-  const navLinks = useMemo(() => {
-    return baseNavLinks.map((l) => ({
-      ...l,
-      href: isHome ? l.href : `/${l.href}`,
-    }));
-  }, [isHome]);
-
-  const topHref = isHome ? "#topo" : "/#topo";
-  const contatoHref = isHome ? "#contato" : "/#contato";
 
   return (
     <motion.header
@@ -53,10 +47,13 @@ export const Header = () => {
       <div className="container-custom">
         <nav className="flex items-center justify-between gap-4">
           <a
-            href={topHref}
+            href={topoHref}
             className="flex items-center gap-3"
             aria-label="Diferencial Reguladora de Sinistro"
-            onClick={() => setIsOpen(false)}
+            onClick={() => {
+              setIsOpen(false);
+              setLoginOpen(false);
+            }}
           >
             <img
               alt="Diferencial Reguladora de Sinistro"
@@ -77,48 +74,53 @@ export const Header = () => {
               </a>
             ))}
 
-            {/* ✅ Login com dropdown (Cliente / Regulador) */}
-            <DropdownMenu.Root open={loginOpen} onOpenChange={setLoginOpen}>
-              <DropdownMenu.Trigger asChild>
-                <button
-                  type="button"
-                  onMouseEnter={() => setLoginOpen(true)}
-                  onMouseLeave={() => setLoginOpen(false)}
-                  className="font-medium text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
-                >
-                  <LogIn className="w-4 h-4" />
-                  Login
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-              </DropdownMenu.Trigger>
+            {/* ✅ Login Dropdown (SEM piscar) */}
+            <div
+              className="relative"
+              onMouseEnter={() => setLoginOpen(true)}
+              onMouseLeave={() => setLoginOpen(false)}
+            >
+              <button
+                type="button"
+                className="font-medium text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+                aria-haspopup="menu"
+                aria-expanded={loginOpen}
+              >
+                <LogIn className="w-4 h-4" />
+                Login
+                <ChevronDown className="w-4 h-4" />
+              </button>
 
-              <DropdownMenu.Portal>
-                <DropdownMenu.Content
-                  onMouseEnter={() => setLoginOpen(true)}
-                  onMouseLeave={() => setLoginOpen(false)}
-                  sideOffset={10}
-                  className="min-w-[190px] rounded-md border border-border/20 bg-card/95 p-1 shadow-lg backdrop-blur"
-                >
-                  <DropdownMenu.Item asChild>
+              <AnimatePresence>
+                {loginOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 top-full mt-2 w-56 rounded-xl border border-border/20 bg-background/95 backdrop-blur shadow-lg overflow-hidden"
+                    role="menu"
+                  >
                     <a
                       href="/login?tipo=cliente"
-                      className="block cursor-pointer rounded-sm px-3 py-2 text-sm text-foreground/90 hover:bg-muted/40 outline-none"
+                      className="block px-4 py-3 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/20 transition-colors"
+                      role="menuitem"
+                      onClick={() => setLoginOpen(false)}
                     >
                       Cliente
                     </a>
-                  </DropdownMenu.Item>
-
-                  <DropdownMenu.Item asChild>
                     <a
                       href="/login?tipo=regulador"
-                      className="block cursor-pointer rounded-sm px-3 py-2 text-sm text-foreground/90 hover:bg-muted/40 outline-none"
+                      className="block px-4 py-3 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/20 transition-colors"
+                      role="menuitem"
+                      onClick={() => setLoginOpen(false)}
                     >
                       Regulador
                     </a>
-                  </DropdownMenu.Item>
-                </DropdownMenu.Content>
-              </DropdownMenu.Portal>
-            </DropdownMenu.Root>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             {/* Botão Fale Conosco */}
             <a
@@ -161,30 +163,28 @@ export const Header = () => {
                   </a>
                 ))}
 
-                {/* ✅ Login no mobile com opções */}
+                {/* Login no mobile (sem dropdown por hover, lista direto) */}
                 <div className="pt-2 border-t border-border/10">
                   <div className="flex items-center gap-2 text-lg font-medium text-muted-foreground py-2">
                     <LogIn className="w-5 h-5" />
                     Login
                   </div>
-
                   <a
                     href="/login?tipo=cliente"
-                    className="block pl-7 py-2 text-base text-muted-foreground hover:text-foreground transition-colors"
+                    className="block pl-7 py-2 text-muted-foreground hover:text-foreground transition-colors"
                     onClick={() => setIsOpen(false)}
                   >
                     Cliente
                   </a>
                   <a
                     href="/login?tipo=regulador"
-                    className="block pl-7 py-2 text-base text-muted-foreground hover:text-foreground transition-colors"
+                    className="block pl-7 py-2 text-muted-foreground hover:text-foreground transition-colors"
                     onClick={() => setIsOpen(false)}
                   >
                     Regulador
                   </a>
                 </div>
 
-                {/* Fale Conosco no mobile */}
                 <a
                   href={contatoHref}
                   className="flex items-center gap-2 bg-cyan-600 text-white font-medium text-lg px-3 py-2 rounded-md hover:bg-cyan-700 transition-colors"
