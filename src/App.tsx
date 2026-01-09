@@ -1,6 +1,7 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -18,49 +19,52 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          {/* site público */}
-          <Route path="/" element={<Index />} />
-          <Route
-            path="/politica-privacidade"
-            element={<PoliticaPrivacidade />}
-          />
+const App = () => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
 
-          {/* logins separados */}
-          <Route path="/login/cliente" element={<LoginCliente />} />
-          <Route path="/login/regulador" element={<LoginRegulador />} />
+        <BrowserRouter>
+          <Routes>
+            {/* site público */}
+            <Route path="/" element={<Index />} />
+            <Route
+              path="/politica-privacidade"
+              element={<PoliticaPrivacidade />}
+            />
 
-          {/* áreas protegidas por perfil */}
-          <Route
-            path="/cliente"
-            element={
-              <ProtectedRoute allowedRole="cliente">
-                <Cliente />
-              </ProtectedRoute>
-            }
-          />
+            {/* logins */}
+            <Route path="/login/cliente" element={<LoginCliente />} />
+            <Route path="/login/regulador" element={<LoginRegulador />} />
 
-          <Route
-            path="/regulador"
-            element={
-              <ProtectedRoute allowedRole="regulador">
-                <Regulador />
-              </ProtectedRoute>
-            }
-          />
+            {/* áreas protegidas */}
+            <Route
+              path="/cliente"
+              element={
+                <ProtectedRoute allowedRole="cliente">
+                  <Cliente />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* fallback */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+            <Route
+              path="/regulador"
+              element={
+                <ProtectedRoute allowedRole="regulador">
+                  <Regulador />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* fallback */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
