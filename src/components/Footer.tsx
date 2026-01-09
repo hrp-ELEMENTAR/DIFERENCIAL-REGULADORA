@@ -11,11 +11,14 @@ export const Footer = () => {
         <div className="grid gap-10 md:gap-8 md:grid-cols-[1.4fr_1fr_1fr_1fr] items-start">
           {/* Logo e descrição */}
           <div className="space-y-6">
-            <img
-              alt="Diferencial Reguladora de Sinistro"
-              className="h-16 md:h-20 w-auto object-contain"
-              src="/lovable-uploads/7a59a6ab-805d-4ae2-bd20-cd13d2c7c8cb.png"
-            />
+            <a href="/#topo" className="inline-block">
+              <img
+                alt="Diferencial Reguladora de Sinistro"
+                className="h-16 md:h-20 w-auto object-contain"
+                src="/lovable-uploads/7a59a6ab-805d-4ae2-bd20-cd13d2c7c8cb.png"
+              />
+            </a>
+
             <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
               Especialistas em regulação de sinistros de transporte e frotas.
               Atuação em todo o território nacional.
@@ -27,31 +30,31 @@ export const Footer = () => {
             <h4 className="font-bold text-foreground min-h-[24px]">Navegação</h4>
             <div className="flex flex-col gap-3">
               <a
-                href="#servicos"
+                href="/#servicos"
                 className="text-sm text-muted-foreground hover:text-primary transition-colors bg-inherit"
               >
                 Serviços
               </a>
               <a
-                href="#como-funciona"
+                href="/#como-funciona"
                 className="text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 Como Funciona
               </a>
               <a
-                href="#atuacao"
+                href="/#atuacao"
                 className="text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 Atuação Nacional
               </a>
               <a
-                href="#diferenciais"
+                href="/#diferenciais"
                 className="text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 Diferenciais
               </a>
               <a
-                href="#contato"
+                href="/#contato"
                 className="text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 Contato
@@ -59,7 +62,7 @@ export const Footer = () => {
             </div>
           </div>
 
-          {/* ✅ NOVA COLUNA: Legal (no meio) */}
+          {/* Legal */}
           <div className="space-y-4">
             <h4 className="font-bold text-foreground">Legal</h4>
             <div className="flex flex-col gap-3">
