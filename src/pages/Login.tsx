@@ -1,39 +1,28 @@
 import { useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { supabase } from "@/lib/supabaseClient";
 
+type TipoLogin = "cliente" | "regulador";
+
 export default function Login() {
+  const params = useParams();
+  const tipo = (params.tipo || "") as TipoLogin;
+
+  const tipoValido = useMemo(() => tipo === "cliente" || tipo === "regulador", [tipo]);
+
+  const titulo = tipo === "cliente" ? "Login do Cliente" : "Login do Regulador";
+  const redirectTo = tipo === "cliente" ? "/area-cliente" : "/area-regulador";
+
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
-  const [ok, setOk] = useState<string | null>(null);
-
-  const tipo = useMemo(() => {
-    if (typeof window === "undefined") return "";
-    const t = new URLSearchParams(window.location.search).get("tipo") || "";
-    return t.toLowerCase();
-  }, []);
-
-  const titulo =
-    tipo === "cliente"
-      ? "Login do Cliente"
-      : tipo === "regulador"
-      ? "Login do Regulador"
-      : "Login";
-
-  const subtitulo =
-    tipo === "cliente"
-      ? "Acesse sua área de cliente. (Em breve vamos conectar com o backend.)"
-      : tipo === "regulador"
-      ? "Acesse sua área de regulador. (Em breve vamos conectar com o backend.)"
-      : "Acesse sua área. (Em breve vamos conectar com o backend.)";
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setErro(null);
-    setOk(null);
     setLoading(true);
 
     const { error } = await supabase.auth.signInWithPassword({
@@ -48,9 +37,23 @@ export default function Login() {
       return;
     }
 
-    setOk("Login realizado com sucesso!");
-    // depois você pode redirecionar: window.location.href = "/area"
+    window.location.href = redirectTo;
   };
+
+  if (!tipoValido) {
+    return (
+      <div id="topo">
+        <Header />
+        <main className="container-custom pt-28 md:pt-32 pb-16">
+          <h1 className="text-3xl md:text-4xl font-black mb-2">Login</h1>
+          <p className="text-muted-foreground">
+            Tipo de login inválido. Use <b>/login/cliente</b> ou <b>/login/regulador</b>.
+          </p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div id="topo">
@@ -58,7 +61,9 @@ export default function Login() {
 
       <main className="container-custom pt-28 md:pt-32 pb-16">
         <h1 className="text-3xl md:text-4xl font-black mb-2">{titulo}</h1>
-        <p className="text-muted-foreground mb-8">{subtitulo}</p>
+        <p className="text-muted-foreground mb-8">
+          Acesse sua área. (Depois conectamos com as permissões por perfil.)
+        </p>
 
         <div className="max-w-xl rounded-xl border border-border/20 bg-card/40 p-6">
           <form className="space-y-4" onSubmit={handleLogin}>
@@ -89,12 +94,6 @@ export default function Login() {
             {erro && (
               <div className="text-sm text-red-400 border border-red-500/30 bg-red-500/10 p-3 rounded-md">
                 {erro}
-              </div>
-            )}
-
-            {ok && (
-              <div className="text-sm text-emerald-300 border border-emerald-500/30 bg-emerald-500/10 p-3 rounded-md">
-                {ok}
               </div>
             )}
 
