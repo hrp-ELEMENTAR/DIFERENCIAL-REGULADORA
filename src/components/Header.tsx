@@ -1,25 +1,39 @@
 import { useEffect, useState } from "react";
-import { LogIn, LogOut, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, LogIn, LogOut, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/lib/supabaseClient";
 
-export function Header() {
-  const [user, setUser] = useState<any>(null);
-  const [menuOpen, setMenuOpen] = useState(false);
+const navLinks = [
+  { href: "#servicos", label: "Serviços" },
+  { href: "#como-funciona", label: "Como Funciona" },
+  { href: "#atuacao", label: "Atuação" },
+  { href: "#diferenciais", label: "Diferenciais" },
+  { href: "#contato", label: "Contato" },
+];
+
+export const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [session, setSession] = useState<any>(null);
 
   useEffect(() => {
-    // Usuário atual
-    supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user);
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
     });
 
-    // Listener de auth
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+      setSession(session);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      subscription.unsubscribe();
+    };
   }, []);
 
   const handleLogout = async () => {
@@ -28,61 +42,90 @@ export function Header() {
   };
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-black/60 backdrop-blur">
-      <div className="container-custom flex items-center justify-between h-20">
-        {/* LOGO */}
-        <a href="/" className="font-bold text-xl">
-          DIFERENCIAL
-        </a>
+    <motion.header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? "glass-header py-2" : "bg-transparent py-4"
+      }`}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="container-custom">
+        <nav className="flex items-center justify-between gap-4">
+          {/* LOGO */}
+          <a href="#topo" className="flex items-center gap-3">
+            <img
+              src="/lovable-uploads/513c5c4a-379f-42ca-877f-283160b2803f.png"
+              alt="Diferencial Reguladora de Sinistro"
+              className="h-14 md:h-16 lg:h-20 w-auto"
+            />
+          </a>
 
-        {/* MENU */}
-        <nav className="flex items-center gap-6">
-          <a href="/#servicos">Serviços</a>
-          <a href="/#como-funciona">Como Funciona</a>
-          <a href="/#atuacao">Atuação</a>
-          <a href="/#diferenciais">Diferenciais</a>
-          <a href="/#contato">Contato</a>
-
-          {/* LOGIN / LOGOUT */}
-          {!user ? (
-            <div className="relative">
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="flex items-center gap-1 hover:text-cyan-400"
+          {/* DESKTOP */}
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="font-medium text-sm text-muted-foreground hover:text-foreground"
               >
-                <LogIn className="w-4 h-4" />
-                Login
-                <ChevronDown className="w-4 h-4" />
-              </button>
+                {link.label}
+              </a>
+            ))}
 
-              {menuOpen && (
-                <div className="absolute right-0 mt-2 w-40 rounded-md bg-black border border-white/10 shadow-lg">
+            {/* 🔁 LOGIN OU SAIR */}
+            {!session ? (
+              <div className="relative group">
+                <span className="flex items-center gap-1 font-medium text-sm text-muted-foreground cursor-pointer hover:text-foreground">
+                  <LogIn className="w-4 h-4" />
+                  Login
+                  <ChevronDown className="w-4 h-4" />
+                </span>
+
+                <div className="absolute right-0 mt-2 w-40 rounded-md bg-background border border-border shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition">
                   <a
-                    href="/login?tipo=cliente"
-                    className="block px-4 py-2 hover:bg-white/10"
+                    href="/login/cliente"
+                    className="block px-4 py-2 text-sm hover:bg-muted"
                   >
                     Cliente
                   </a>
                   <a
-                    href="/login?tipo=regulador"
-                    className="block px-4 py-2 hover:bg-white/10"
+                    href="/login/regulador"
+                    className="block px-4 py-2 text-sm hover:bg-muted"
                   >
                     Regulador
                   </a>
                 </div>
-              )}
-            </div>
-          ) : (
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-1 text-red-400 hover:text-red-500"
+              </div>
+            ) : (
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-1 font-medium text-sm text-muted-foreground hover:text-foreground"
+              >
+                <LogOut className="w-4 h-4" />
+                Sair
+              </button>
+            )}
+
+            {/* FALE CONOSCO */}
+            <a
+              href="#contato"
+              className="flex items-center gap-2 bg-cyan-600 text-white font-medium text-sm px-3 py-2 rounded-md hover:bg-cyan-700"
             >
-              <LogOut className="w-4 h-4" />
-              Sair
-            </button>
-          )}
+              <Phone className="w-4 h-4" />
+              Fale Conosco
+            </a>
+          </div>
+
+          {/* MOBILE */}
+          <button
+            className="lg:hidden p-2"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
         </nav>
       </div>
-    </header>
+    </motion.header>
   );
-}
+};
