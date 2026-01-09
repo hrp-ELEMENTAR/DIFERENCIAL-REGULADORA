@@ -1,18 +1,20 @@
 import { Phone, Mail, MapPin } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { useMemo } from "react";
 
 export const Footer = () => {
   const year = new Date().getFullYear();
-  const location = useLocation();
-  const isHome = location.pathname === "/";
 
-  const link = (hash: string) => (isHome ? hash : `/${hash}`);
+  const isHome = useMemo(() => {
+    if (typeof window === "undefined") return true;
+    return window.location.pathname === "/" || window.location.pathname === "";
+  }, []);
+
+  const href = (hash: string) => (isHome ? hash : `/${hash}`);
 
   return (
     <footer className="border-t border-border/20 bg-card/50">
       <div className="container-custom py-12 md:py-16">
         <div className="grid gap-10 md:gap-8 md:grid-cols-[1.4fr_1fr_1fr_1fr] items-start">
-          {/* Logo e descrição */}
           <div className="space-y-6">
             <img
               alt="Diferencial Reguladora de Sinistro"
@@ -25,29 +27,27 @@ export const Footer = () => {
             </p>
           </div>
 
-          {/* Links */}
           <div className="space-y-4 md:pl-10">
             <h4 className="font-bold text-foreground min-h-[24px]">Navegação</h4>
             <div className="flex flex-col gap-3">
-              <a href={link("#servicos")} className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <a href={href("#servicos")} className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Serviços
               </a>
-              <a href={link("#como-funciona")} className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <a href={href("#como-funciona")} className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Como Funciona
               </a>
-              <a href={link("#atuacao")} className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <a href={href("#atuacao")} className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Atuação Nacional
               </a>
-              <a href={link("#diferenciais")} className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <a href={href("#diferenciais")} className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Diferenciais
               </a>
-              <a href={link("#contato")} className="text-sm text-muted-foreground hover:text-primary transition-colors">
+              <a href={href("#contato")} className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Contato
               </a>
             </div>
           </div>
 
-          {/* Legal */}
           <div className="space-y-4">
             <h4 className="font-bold text-foreground">Legal</h4>
             <div className="flex flex-col gap-3">
@@ -60,7 +60,6 @@ export const Footer = () => {
             </div>
           </div>
 
-          {/* Contato */}
           <div className="space-y-4">
             <h4 className="font-bold text-foreground">Contato</h4>
             <div className="flex flex-col gap-3 text-sm text-muted-foreground">
