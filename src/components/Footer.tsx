@@ -1,24 +1,24 @@
 import { Phone, Mail, MapPin } from "lucide-react";
-import logo from "@/assets/logo.png";
+import { useLocation } from "react-router-dom";
 
 export const Footer = () => {
   const year = new Date().getFullYear();
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+
+  const link = (hash: string) => (isHome ? hash : `/${hash}`);
 
   return (
     <footer className="border-t border-border/20 bg-card/50">
       <div className="container-custom py-12 md:py-16">
-        {/* ✅ agora são 4 colunas */}
         <div className="grid gap-10 md:gap-8 md:grid-cols-[1.4fr_1fr_1fr_1fr] items-start">
           {/* Logo e descrição */}
           <div className="space-y-6">
-            <a href="/#topo" className="inline-block">
-              <img
-                alt="Diferencial Reguladora de Sinistro"
-                className="h-16 md:h-20 w-auto object-contain"
-                src="/lovable-uploads/7a59a6ab-805d-4ae2-bd20-cd13d2c7c8cb.png"
-              />
-            </a>
-
+            <img
+              alt="Diferencial Reguladora de Sinistro"
+              className="h-16 md:h-20 w-auto object-contain"
+              src="/lovable-uploads/7a59a6ab-805d-4ae2-bd20-cd13d2c7c8cb.png"
+            />
             <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
               Especialistas em regulação de sinistros de transporte e frotas.
               Atuação em todo o território nacional.
@@ -29,34 +29,19 @@ export const Footer = () => {
           <div className="space-y-4 md:pl-10">
             <h4 className="font-bold text-foreground min-h-[24px]">Navegação</h4>
             <div className="flex flex-col gap-3">
-              <a
-                href="/#servicos"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors bg-inherit"
-              >
+              <a href={link("#servicos")} className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Serviços
               </a>
-              <a
-                href="/#como-funciona"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
+              <a href={link("#como-funciona")} className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Como Funciona
               </a>
-              <a
-                href="/#atuacao"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
+              <a href={link("#atuacao")} className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Atuação Nacional
               </a>
-              <a
-                href="/#diferenciais"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
+              <a href={link("#diferenciais")} className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Diferenciais
               </a>
-              <a
-                href="/#contato"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
+              <a href={link("#contato")} className="text-sm text-muted-foreground hover:text-primary transition-colors">
                 Contato
               </a>
             </div>
@@ -103,8 +88,7 @@ export const Footer = () => {
 
         <div className="border-t border-border/20 mt-10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-sm text-muted-foreground text-center md:text-left">
-            © {year} Diferencial Reguladora de Sinistro. Todos os direitos
-            reservados.
+            © {year} Diferencial Reguladora de Sinistro. Todos os direitos reservados.
           </div>
           <div className="flex items-center gap-2 text-xs text-[#dedede]">
             <span className="w-2 h-2 rounded-full animate-pulse bg-destructive" />
