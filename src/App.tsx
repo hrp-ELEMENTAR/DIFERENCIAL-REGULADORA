@@ -25,31 +25,37 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          {/* site público */}
           <Route path="/" element={<Index />} />
-          <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
+          <Route
+            path="/politica-privacidade"
+            element={<PoliticaPrivacidade />}
+          />
 
           {/* logins separados */}
           <Route path="/login/cliente" element={<LoginCliente />} />
           <Route path="/login/regulador" element={<LoginRegulador />} />
 
-          {/* áreas protegidas */}
+          {/* áreas protegidas por perfil */}
           <Route
             path="/cliente"
             element={
-              <ProtectedRoute role="cliente">
+              <ProtectedRoute allowedRole="cliente">
                 <Cliente />
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/regulador"
             element={
-              <ProtectedRoute role="regulador">
+              <ProtectedRoute allowedRole="regulador">
                 <Regulador />
               </ProtectedRoute>
             }
           />
 
+          {/* fallback */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
