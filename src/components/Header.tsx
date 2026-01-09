@@ -1,187 +1,88 @@
-import { useEffect, useMemo, useState } from "react";
-import { Menu, X, Phone, LogIn, ChevronDown } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+import { LogIn, LogOut, ChevronDown } from "lucide-react";
+import { supabase } from "@/lib/supabaseClient";
 
-export const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  // dropdown login (desktop)
-  const [loginOpen, setLoginOpen] = useState(false);
+export function Header() {
+  const [user, setUser] = useState<any>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Usuário atual
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user);
+    });
+
+    // Listener de auth
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  // Detecta se está na home pela URL (sem precisar hooks do router)
-  const isHome = useMemo(() => {
-    if (typeof window === "undefined") return true;
-    return window.location.pathname === "/" || window.location.pathname === "";
-  }, []);
-
-  const navLinks = useMemo(
-    () => [
-      { href: isHome ? "#servicos" : "/#servicos", label: "Serviços" },
-      { href: isHome ? "#como-funciona" : "/#como-funciona", label: "Como Funciona" },
-      { href: isHome ? "#atuacao" : "/#atuacao", label: "Atuação" },
-      { href: isHome ? "#diferenciais" : "/#diferenciais", label: "Diferenciais" },
-      { href: isHome ? "#contato" : "/#contato", label: "Contato" },
-    ],
-    [isHome]
-  );
-
-  const topoHref = isHome ? "#topo" : "/#topo";
-  const contatoHref = isHome ? "#contato" : "/#contato";
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    window.location.href = "/";
+  };
 
   return (
-    <motion.header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass-header py-2" : "bg-transparent py-4"
-      }`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="container-custom">
-        <nav className="flex items-center justify-between gap-4">
-          <a
-            href={topoHref}
-            className="flex items-center gap-3"
-            aria-label="Diferencial Reguladora de Sinistro"
-            onClick={() => setIsOpen(false)}
-          >
-            <img
-              alt="Diferencial Reguladora de Sinistro"
-              className="h-14 md:h-16 lg:h-20 w-auto object-contain transition-all duration-300"
-              src="/lovable-uploads/513c5c4a-379f-42ca-877f-283160b2803f.png"
-            />
-          </a>
+    <header className="fixed top-0 w-full z-50 bg-black/60 backdrop-blur">
+      <div className="container-custom flex items-center justify-between h-20">
+        {/* LOGO */}
+        <a href="/" className="font-bold text-xl">
+          DIFERENCIAL
+        </a>
 
-          {/* Desktop nav */}
-          <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="font-medium text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
+        {/* MENU */}
+        <nav className="flex items-center gap-6">
+          <a href="/#servicos">Serviços</a>
+          <a href="/#como-funciona">Como Funciona</a>
+          <a href="/#atuacao">Atuação</a>
+          <a href="/#diferenciais">Diferenciais</a>
+          <a href="/#contato">Contato</a>
 
-            {/* ✅ Login dropdown (sem piscar) */}
-            <div
-              className="relative"
-              onMouseEnter={() => setLoginOpen(true)}
-              onMouseLeave={() => setLoginOpen(false)}
-            >
+          {/* LOGIN / LOGOUT */}
+          {!user ? (
+            <div className="relative">
               <button
-                type="button"
-                className="font-medium text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="flex items-center gap-1 hover:text-cyan-400"
               >
                 <LogIn className="w-4 h-4" />
                 Login
                 <ChevronDown className="w-4 h-4" />
               </button>
 
-              {loginOpen && (
-                <div className="absolute right-0 mt-2 w-48 rounded-xl border border-border/20 bg-card/95 backdrop-blur shadow-lg overflow-hidden">
+              {menuOpen && (
+                <div className="absolute right-0 mt-2 w-40 rounded-md bg-black border border-white/10 shadow-lg">
                   <a
-                    href="/login/cliente"
-                    className="block px-4 py-3 text-sm text-foreground/90 hover:bg-background/40 transition-colors"
+                    href="/login?tipo=cliente"
+                    className="block px-4 py-2 hover:bg-white/10"
                   >
                     Cliente
                   </a>
                   <a
-                    href="/login/regulador"
-                    className="block px-4 py-3 text-sm text-foreground/90 hover:bg-background/40 transition-colors"
+                    href="/login?tipo=regulador"
+                    className="block px-4 py-2 hover:bg-white/10"
                   >
                     Regulador
                   </a>
                 </div>
               )}
             </div>
-
-            {/* Botão Fale Conosco */}
-            <a
-              href={contatoHref}
-              className="flex items-center gap-2 bg-cyan-600 text-white font-medium text-sm px-3 py-2 rounded-md hover:bg-cyan-700 transition-colors"
+          ) : (
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1 text-red-400 hover:text-red-500"
             >
-              <Phone className="w-4 h-4" />
-              Fale Conosco
-            </a>
-          </div>
-
-          {/* Mobile menu button */}
-          <button
-            className="lg:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Menu"
-          >
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </nav>
-
-        {/* Mobile nav */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              className="lg:hidden py-6 border-t border-border/10 mt-4"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-            >
-              <div className="flex flex-col gap-4">
-                {navLinks.map((link) => (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    className="font-medium text-lg text-muted-foreground hover:text-foreground transition-colors py-2"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.label}
-                  </a>
-                ))}
-
-                {/* Login no mobile (2 opções) */}
-                <div className="pt-2 border-t border-border/10">
-                  <div className="text-xs text-muted-foreground mb-2 flex items-center gap-2">
-                    <LogIn className="w-4 h-4" /> Login
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <a
-                      href="/login/cliente"
-                      className="font-medium text-lg text-muted-foreground hover:text-foreground transition-colors py-2"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      Cliente
-                    </a>
-                    <a
-                      href="/login/regulador"
-                      className="font-medium text-lg text-muted-foreground hover:text-foreground transition-colors py-2"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      Regulador
-                    </a>
-                  </div>
-                </div>
-
-                {/* Fale Conosco no mobile */}
-                <a
-                  href={contatoHref}
-                  className="flex items-center gap-2 bg-cyan-600 text-white font-medium text-lg px-3 py-2 rounded-md hover:bg-cyan-700 transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <Phone className="w-4 h-4" />
-                  Fale Conosco
-                </a>
-              </div>
-            </motion.div>
+              <LogOut className="w-4 h-4" />
+              Sair
+            </button>
           )}
-        </AnimatePresence>
+        </nav>
       </div>
-    </motion.header>
+    </header>
   );
-};
+}
