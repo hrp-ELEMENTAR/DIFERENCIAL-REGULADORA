@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Phone, LogIn, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, LogIn } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -56,14 +56,13 @@ export const Header = () => {
               </a>
             ))}
 
-            {/* Login com ícones, sem dropdown */}
+            {/* Login (leva para /login) */}
             <a
               href="/login"
               className="font-medium text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
             >
               <LogIn className="w-4 h-4" />
               Login
-              <ChevronDown className="w-4 h-4" />
             </a>
 
             {/* Botão Fale Conosco */}
@@ -107,15 +106,14 @@ export const Header = () => {
                   </a>
                 ))}
 
-                {/* Login no mobile com ícone */}
+                {/* Login no mobile */}
                 <a
                   href="/login"
-                  className="font-medium text-lg text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 py-2"
+                  className="font-medium text-lg text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2 py-2"
                   onClick={() => setIsOpen(false)}
                 >
                   <LogIn className="w-5 h-5" />
                   Login
-                  <ChevronDown className="w-5 h-5" />
                 </a>
 
                 {/* Fale Conosco no mobile */}
