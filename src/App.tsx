@@ -14,7 +14,7 @@ import LoginRegulador from "./pages/LoginRegulador";
 import Cliente from "./pages/Cliente";
 import Regulador from "./pages/Regulador";
 
-import ProtectedRoute from "@/components/ProtectedRoute";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
