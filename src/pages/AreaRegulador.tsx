@@ -1,71 +1,75 @@
+import { useEffect, useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function AreaRegulador() {
+  const [nome, setNome] = useState<string>("");
+
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      // Prioridade: first_name → name → email
+      const firstName =
+        user.user_metadata?.first_name ||
+        user.user_metadata?.name ||
+        user.email?.split("@")[0] ||
+        "Regulador";
+
+      setNome(firstName);
+    };
+
+    getUser();
+  }, []);
+
   return (
     <div id="topo">
       <Header />
 
       <main className="container-custom pt-28 md:pt-32 pb-16">
-        <div className="max-w-5xl">
-          <h1 className="text-3xl md:text-4xl font-black mb-2">Área do Regulador</h1>
-          <p className="text-muted-foreground mb-8">
-            Painel para acompanhamento, criação e gerenciamento de processos (em breve integrado).
+        {/* Saudação personalizada */}
+        <div className="mb-10">
+          <h1 className="text-3xl md:text-4xl font-black mb-2">
+            Olá, {nome} 👋
+          </h1>
+          <p className="text-muted-foreground">
+            Bem-vindo à Área do Regulador.
           </p>
+        </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="rounded-xl border border-border/20 bg-card/40 p-6">
-              <h2 className="text-lg font-bold mb-2">Sinistros Atribuídos</h2>
-              <p className="text-sm text-muted-foreground mb-4">
-                Visualize os sinistros sob sua responsabilidade (em breve).
-              </p>
-              <button
-                className="rounded-md bg-cyan-600 text-white font-medium px-4 py-2 hover:bg-cyan-700 transition-colors"
-                type="button"
-              >
-                Ver lista
-              </button>
-            </div>
-
-            <div className="rounded-xl border border-border/20 bg-card/40 p-6">
-              <h2 className="text-lg font-bold mb-2">Criar Relatório</h2>
-              <p className="text-sm text-muted-foreground mb-4">
-                Geração e envio de relatórios técnicos (em breve).
-              </p>
-              <button
-                className="rounded-md border border-border/30 bg-background/30 text-foreground font-medium px-4 py-2 hover:bg-background/40 transition-colors"
-                type="button"
-              >
-                Novo relatório
-              </button>
-            </div>
-
-            <div className="rounded-xl border border-border/20 bg-card/40 p-6">
-              <h2 className="text-lg font-bold mb-2">Eventos do Processo</h2>
-              <p className="text-sm text-muted-foreground mb-4">
-                Registrar ocorrências e atualizações (em breve).
-              </p>
-              <button
-                className="rounded-md border border-border/30 bg-background/30 text-foreground font-medium px-4 py-2 hover:bg-background/40 transition-colors"
-                type="button"
-              >
-                Registrar evento
-              </button>
-            </div>
-
-            <div className="rounded-xl border border-border/20 bg-card/40 p-6">
-              <h2 className="text-lg font-bold mb-2">Consultas</h2>
-              <p className="text-sm text-muted-foreground mb-4">
-                Buscar sinistros, clientes e documentos (em breve).
-              </p>
-              <button
-                className="rounded-md border border-border/30 bg-background/30 text-foreground font-medium px-4 py-2 hover:bg-background/40 transition-colors"
-                type="button"
-              >
-                Abrir busca
-              </button>
-            </div>
+        {/* Cards iniciais */}
+        <div className="grid gap-6 md:grid-cols-3">
+          <div className="rounded-xl border border-border/20 bg-card/40 p-6">
+            <h2 className="font-semibold text-lg mb-2">Sinistros</h2>
+            <p className="text-sm text-muted-foreground">
+              Gerencie e acompanhe os sinistros atribuídos a você.
+            </p>
           </div>
+
+          <div className="rounded-xl border border-border/20 bg-card/40 p-6">
+            <h2 className="font-semibold text-lg mb-2">Clientes</h2>
+            <p className="text-sm text-muted-foreground">
+              Visualize informações e histórico dos clientes.
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-border/20 bg-card/40 p-6">
+            <h2 className="font-semibold text-lg mb-2">Relatórios</h2>
+            <p className="text-sm text-muted-foreground">
+              Em breve: geração de relatórios e indicadores.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-12 rounded-xl border border-dashed border-border/30 p-6 text-center">
+          <p className="text-sm text-muted-foreground">
+            🚧 Painel do regulador em desenvolvimento.
+          </p>
         </div>
       </main>
 
