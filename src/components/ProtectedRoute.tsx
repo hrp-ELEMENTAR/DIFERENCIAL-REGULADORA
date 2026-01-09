@@ -1,53 +1,45 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
 import { supabase } from "@/lib/supabaseClient";
+import { Navigate } from "react-router-dom";
 
-type Role = "cliente" | "regulador";
+type Props = {
+  children: JSX.Element;
+  allowedRole: "cliente" | "regulador";
+};
 
-export default function ProtectedRoute({
-  role,
-  children,
-}: {
-  role: Role;
-  children: React.ReactNode;
-}) {
+export function ProtectedRoute({ children, allowedRole }: Props) {
   const [loading, setLoading] = useState(true);
-  const [allowed, setAllowed] = useState(false);
+  const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
-    const run = async () => {
-      const { data: sessionData } = await supabase.auth.getSession();
-      const user = sessionData.session?.user;
+    const checkAccess = async () => {
+      const { data } = await supabase.auth.getSession();
+      const session = data.session;
 
-      if (!user) {
-        setAllowed(false);
+      if (!session) {
+        setAuthorized(false);
         setLoading(false);
         return;
       }
 
-      const { data, error } = await supabase
+      const { data: profile } = await supabase
         .from("profiles")
         .select("role")
-        .eq("id", user.id)
+        .eq("id", session.user.id)
         .single();
 
-      if (error || !data?.role) {
-        setAllowed(false);
-      } else {
-        setAllowed(data.role === role);
-      }
-
+      setAuthorized(profile?.role === allowedRole);
       setLoading(false);
     };
 
-    run();
-  }, [role]);
+    checkAccess();
+  }, [allowedRole]);
 
   if (loading) return null;
 
-  if (!allowed) {
-    return <Navigate to={role === "cliente" ? "/login/cliente" : "/login/regulador"} replace />;
+  if (!authorized) {
+    return <Navigate to="/login" replace />;
   }
 
-  return <>{children}</>;
+  return children;
 }
